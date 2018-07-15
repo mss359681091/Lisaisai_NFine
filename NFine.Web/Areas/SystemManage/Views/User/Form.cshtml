@@ -64,11 +64,11 @@
                 <tr>
                     <th class="formTitle">账户</th>
                     <td class="formValue">
-                        <input id="F_Account" name="F_Account" type="text" class="form-control required" placeholder="请输入账户" />
+                        <input id="F_Account" name="F_Account" type="text" maxlength="50" class="form-control required" placeholder="请输入账户" />
                     </td>
                     <th class="formTitle">密码</th>
                     <td class="formValue">
-                        <input id="F_UserPassword" name="F_UserPassword" type="password" class="form-control required" placeholder="请输入密码" />
+                        <input id="F_UserPassword" name="F_UserPassword" type="password" maxlength="50"  class="form-control required" placeholder="请输入密码" />
                     </td>
                 </tr>
                 <tr>
@@ -101,7 +101,7 @@
                 <tr>
                     <th class="formTitle">姓名</th>
                     <td class="formValue">
-                        <input id="F_RealName" name="F_RealName" type="text" class="form-control required" placeholder="请输入姓名" />
+                        <input id="F_RealName" name="F_RealName" type="text" maxlength="50"  class="form-control required" placeholder="请输入姓名" />
                     </td>
                     <th class="formTitle">性别</th>
                     <td class="formValue">
@@ -114,7 +114,7 @@
                 <tr>
                     <th class="formTitle">手机</th>
                     <td class="formValue">
-                        <input id="F_MobilePhone" name="F_MobilePhone" type="text" class="form-control" />
+                        <input id="F_MobilePhone" name="F_MobilePhone" maxlength="50"  type="text" class="form-control digits" />
                     </td>
                     <th class="formTitle">生日</th>
                     <td class="formValue">
@@ -124,11 +124,11 @@
                 <tr>
                     <th class="formTitle">微信</th>
                     <td class="formValue">
-                        <input id="F_WeChat" name="F_WeChat" type="text" class="form-control" />
+                        <input id="F_WeChat" name="F_WeChat" type="text" maxlength="50" class="form-control" />
                     </td>
                     <th class="formTitle">邮箱</th>
                     <td class="formValue">
-                        <input id="F_Email" name="F_Email" type="text" class="form-control" />
+                        <input id="F_Email" name="F_Email" type="text"  maxlength="50" class="form-control email" />
                     </td>
                 </tr>
                 <tr>
@@ -151,7 +151,7 @@
                     <th class="formTitle" valign="top" style="padding-top: 5px;">备注
                     </th>
                     <td class="formValue" colspan="3">
-                        <textarea id="F_Description" name="F_Description" class="form-control" style="height: 60px;"></textarea>
+                        <textarea id="F_Description" name="F_Description" maxlength="200" class="form-control" style="height: 60px;"></textarea>
                     </td>
                 </tr>
             </table>

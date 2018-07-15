@@ -56,9 +56,13 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetTreeGridJson()
+        public ActionResult GetTreeGridJson(string keyword = "")
         {
             var data = itemsApp.GetList();
+            if (!string.IsNullOrEmpty(keyword.Trim()))
+            {
+                data = data.TreeWhere(t => (t.F_FullName.Contains(keyword)||t.F_EnCode.Contains(keyword)));
+            }
             var treeList = new List<TreeGridModel>();
             foreach (ItemsEntity item in data)
             {

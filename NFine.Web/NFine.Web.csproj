@@ -1066,7 +1066,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_topnavigation.cshtml" />
     <Content Include="Views\Shared\_bottom.cshtml" />
     <Content Include="Views\Shared\_login.cshtml" />

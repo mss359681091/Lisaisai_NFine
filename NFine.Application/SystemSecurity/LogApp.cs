@@ -55,6 +55,12 @@ namespace NFine.Application.SystemSecurity
                 }
                 expression = expression.And(t => t.F_Date >= startTime && t.F_Date <= endTime);
             }
+
+            if (!queryParam["UserId"].IsEmpty())
+            {
+                string UserId = queryParam["UserId"].ToString();
+                expression = expression.And(t => t.F_CreatorUserId.Equals(UserId));
+            }
             return service.FindList(expression, pagination);
         }
         public void RemoveLog(string keepTime)

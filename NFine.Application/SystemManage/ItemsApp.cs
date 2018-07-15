@@ -20,12 +20,18 @@ namespace NFine.Application.SystemManage
         ICache cache = CacheFactory.Cache();//实例化缓存，默认自带缓存
         private IItemsRepository service = new ItemsRepository();
 
-        public List<ItemsEntity> GetList()
+        public List<ItemsEntity> GetList(string keyword="")
         {
+            cacheKey = cacheKey + "1_" + keyword;//拼接有参key值
             var cacheList = cache.GetCache<List<ItemsEntity>>(cacheKey);
             if (cacheList == null)
             {
                 var expression = ExtLinq.True<ItemsEntity>();
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    expression = expression.And(t => t.F_FullName.Contains(keyword));
+                    expression = expression.Or(t => t.F_EnCode.Equals(keyword));
+                }
                 cacheList = service.IQueryable(expression).OrderBy(t => t.F_SortCode).ToList();//排序
                 cache.WriteCache<List<ItemsEntity>>(cacheList, cacheKey, "UserCacheDependency", "Sys_Items");
             }

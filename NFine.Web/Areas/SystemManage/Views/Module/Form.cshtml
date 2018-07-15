@@ -57,13 +57,13 @@
                         </td>
                         <th class="formTitle">名称</th>
                         <td class="formValue">
-                            <input id="F_FullName" name="F_FullName" type="text" class="form-control required" placeholder="请输入名称" />
+                            <input id="F_FullName" name="F_FullName" type="text" maxlength="50" class="form-control required" placeholder="请输入名称" />
                         </td>
                     </tr>
                     <tr>
                         <th class="formTitle">连接</th>
                         <td class="formValue">
-                            <input id="F_UrlAddress" name="F_UrlAddress" type="text" class="form-control" />
+                            <input id="F_UrlAddress" name="F_UrlAddress" type="text" maxlength="200" class="form-control" />
                         </td>
                         <th class="formTitle">目标</th>
                         <td class="formValue">
@@ -80,7 +80,7 @@
                         <th class="formTitle">图标</th>
                         <td class="formValue">
                             <div class="input-group">
-                                <input id="F_Icon" name="F_Icon" type="text" class="form-control">
+                                <input id="F_Icon" name="F_Icon" type="text" maxlength="50" class="form-control">
                                 <span class="input-group-btn">
                                     <a class="btn  btn-primary"><i class="fa fa-ellipsis-h"></i></a>
                                 </span>
@@ -119,12 +119,12 @@
                             介绍
                         </th>
                         <td class="formValue" colspan="3">
-                            <textarea id="F_Description" name="F_Descriptions" class="form-control" style="height: 100px;"></textarea>
+                            <textarea id="F_Description" name="F_Descriptions" class="form-control" maxlength="200" style="height: 100px;"></textarea>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div id="b" class="tab-pane active" style="padding: 15px;">
+            <div id="b" class="tab-pane" style="padding: 15px;">
             </div>
         </div>
 

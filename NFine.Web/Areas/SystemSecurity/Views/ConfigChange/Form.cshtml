@@ -35,7 +35,6 @@
             }
         })
     }
-
 </script>
 <form id="form1">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
@@ -48,32 +47,13 @@
                     <tr>
                         <th class="formTitle">配置KEY</th>
                         <td class="formValue">
-                            <input id="F_Key" name="F_Key" type="text" class="form-control " placeholder="请输入KEY" />
+                            <input id="F_Key" name="F_Key" type="text" maxlength="50" class="form-control required" placeholder="请输入KEY" />
                         </td>
                         <th class="formTitle">配置VALUE</th>
                         <td class="formValue">
-                            <input id="F_Value" name="F_Value" type="text" class="form-control required" placeholder="请输入VALUE" />
+                            <input id="F_Value" name="F_Value" type="text" maxlength="200" class="form-control required" placeholder="请输入VALUE" />
                         </td>
                     </tr>
-                    @*<tr>
-                        <th class="formTitle">配置描述</th>
-                        <td class="formValue">
-                            <input id="F_Description" name="F_Description" type="text" class="form-control " placeholder="请输入配置描述" />
-                        </td>
-                        <th class="formTitle">排序号</th>
-                        <td class="formValue">
-                            <input id="F_SortCode" name="F_SortCode" type="text" class="form-control  digits" placeholder="请输入排序号" value="0" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">创建人</th>
-                        <td class="formValue">
-
-                            <input id="F_CreatorUserId" name="F_CreatorUserId" type="text" class="form-control " placeholder="" style="display:none" />
-
-                            <span id="CreatorUserId"></span>
-                        </td>
-                    </tr>*@
                 </table>
             </div>
         </div>
