@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name=”renderer” content=”webkit|ie-comp|ie-stand” />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+    <link rel="icon" href="~/favicon.ico">
+    <title>恒禹软件·管理系统</title>
+    <link href="~/Content/css/login.css" rel="stylesheet" />
+</head>
+<body>
+    <input id="errornum" type="hidden" value="@ViewBag.errornum" />
+    <div class="lr-layout-block top">
+        <img src="~/Content/img/Login/logo.png" />
+    </div>
+    <div class="lr-layout-block middle">
+        <div class="lr-layout-side left">
+            <img src="~/Content/img/Login/bg_01.png" />
+        </div>
+        <div class="lr-layout-side center">
+            <div class="lr-login-form">
+                <div class="lr-tips" id="lr_tips"></div>
+
+                <div class="lr-input-item ">
+                    <label class="name-label"></label>
+                    <input id="lr_username" type="text" placeholder="账户" maxlength="50">
+                </div>
+                <div class="lr-input-item">
+                    <label class="pwd-label"></label>
+                    <input id="lr_password" type="password" placeholder="密码" maxlength="50">
+                </div>
+                <div class="lr-input-item" style="display:none">
+                    <label class="code-label"></label>
+                    <input id="lr_verifycode_input" maxlength="4" type="text" placeholder="图片验证码">
+                    <div style="height: 36px;width: 100px;position: absolute;right: 0px;top: 0px;">
+                        <img id="lr_verifycode_img" src="~/Login/GetAuthCode" alt="点击切换验证码" title="点击切换验证码" />
+                        @*<img id="imgcode" class="authcode" src="~/Login/GetAuthCode" width="80" height="25" />*@
+                    </div>
+                </div>
+                <div class="lr-login-links" style="margin-bottom:15px">
+                    <input tabindex="5" type="checkbox" id="rememberMe">
+                    <label for="rememberMe"> 记住密码</label>
+                </div>
+                <button id="lr_login_btn" type="button"><span>登录</span></button>
+                <div class="lr-login-links">
+                    <a href="#" onclick="alert('请联系管理员')">忘记密码？</a>
+                </div>
+                @*<div class="lr-version">当前版本 V1.0.1</div>*@
+            </div>
+        </div>
+        <div class="lr-layout-side right">
+            <img src="~/Content/img/Login/bg_03.png" />
+        </div>
+    </div>
+
+
+    <div class="lr-layout-block bottom" style="width:100%;text-align:center;">
+        技术支持:恒禹软件<br>
+        <a href="http://www.hengyusoft.com/" title="恒禹软件是一家新进的具有领先科技及高素质专业团队,极富创新性,高速发展的公司,本软件公司本着“共同 共创 共有 共赢 共富 共享”的价值理念稳步发展,公司主要经营范围包括企业类,政务类,网站类,硬件类,维护类,广告类等软件产品. 基于“内容价值最大化,持续为社会创造价值”的企业使命,以及以义当先,义利共存,领先一步,就是科技的企业." target="_blank" style="color:#828282;">Copyright © 2011-2016 HengYuSoft All Rights Reserved</a>
+    </div>
+
+    <script src="~/Content/js/jquery/jquery-3.1.1.min.js"></script>
+    <script src="~/Content/js/md5/jquery.md5.js"></script>
+    <script src="~/Content/js/cookie/jquery.cookie.js"></script>
+    <script>
+        $.rootUrl = '@Url.Content("~")'.substr(0, '@Url.Content("~")'.length - 1);
+        $.lrToken = $('@Html.AntiForgeryToken()').val();
+    </script>
+
+    <script src="~/Content/js/login.js"></script>
+</body>
+</html>

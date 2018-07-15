@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "Info";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<form id="form1">
+    <div class="wrapper">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#a" data-toggle="tab">基本信息</a></li>
+            <li><a href="#b" data-toggle="tab">注册信息</a></li>
+            <li><a href="#c" data-toggle="tab">联系方式</a></li>
+            @*<li><a href="#c" data-toggle="tab">安全验证</a></li>
+                <li><a href="#c" data-toggle="tab">系统日志</a></li>
+                    <li><a href="#c" data-toggle="tab">个性化设置</a></li>*@
+        </ul>
+        <div class="tab-content" style="padding-top: 5px;">
+            <div id="a" class="tab-pane active" style="padding: 15px;">
+                <ul class="pop-list">
+
+                    <li>
+                        <label>姓名</label>
+                        <input id="F_RealName" name="F_RealName" type="text" class="form-control" />
+                    </li>
+                    <li>
+                        <label>性别</label>
+                        <select id="F_Gender" name="F_Gender" class="form-control">
+                            <option value="true">男</option>
+                            <option value="false">女</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label>生日</label>
+                        <input id="F_Birthday" name="F_Birthday" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                    </li>
+                    <li>
+                        <label>公司</label>
+                        @Html.DropDownList("F_OrganizeId", null, new { @class = "form-control" })
+                    </li>
+                    <li>
+                        <label>部门</label>
+                        @Html.DropDownList("F_DepartmentId", null, new { @class = "form-control" })
+                    </li>
+                    <li>
+                        <label>角色</label>
+                        @Html.DropDownList("F_RoleId", null, new { @class = "form-control" })
+                    </li>
+                    <li>
+                        <label>岗位</label>
+                        @Html.DropDownList("F_DutyId", null, new { @class = "form-control" })
+                    </li>
+
+
+                </ul>
+            </div>
+            <div id="b" class="tab-pane" style="padding: 15px;">
+                <ul class="pop-list">
+
+                    @*<li>
+                            <label>密码</label>
+                            <input id="F_UserPassword" name="F_UserPassword" type="password" class="form-control" />
+                        </li>*@
+                    @*<li>
+                            <label>第一次访问时间</label>
+                            <input type="text" class="form-control" />
+                        </li>
+                        <li>
+                            <label>上一次访问时间</label>
+                            <input type="text" class="form-control" />
+                        </li>
+                        <li>
+                            <label>最后修改密码时间</label>
+                            <input type="text" class="form-control" />
+                        </li>
+                        <li>
+                            <label>登录时间</label>
+                            <input type="text" class="form-control" />
+                        </li>
+                        <li>
+                            <label>登录次数</label>
+                            <input type="text" class="form-control" />
+                        </li>*@
+                    <li>
+                        <label>昵称</label>
+                        <input id="F_NickName" name="F_NickName" type="text" class="form-control" />
+                    </li>
+                    <li>
+                        <label>用户名</label>
+                        <input id="F_Account" name="F_Account" type="text" class="form-control" />
+                    </li>
+                    <li>
+                        <label>账户类型</label>
+                        <select id="F_IsAdministrator" name="F_IsAdministrator" class="form-control">
+                            <option value="false">普通用户</option>
+                            <option value="true">系统管理员</option>
+                        </select>
+                    </li>
+                    <li class="line">
+                        <h5><span>修改密码</span></h5>
+                    </li>
+                    @*<li>
+                            <label>旧密码</label>
+                            <input type="password" class="form-control" />
+                        </li>
+                        <li>
+                            <label>新密码</label>
+                            <input type="password" class="form-control" />
+                        </li>
+                        <li>
+                            <label>确认新密码</label>
+                            <input type="password" class="form-control" />
+                        </li>*@
+                    <li>
+                        <div style="padding-left: 115px;">
+                            <a class="btn btn-primary" onclick="btn_revisepassword()"><i class="fa fa-save" style="margin-right:5px;"></i>重置密码</a>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <div id="c" class="tab-pane" style="padding: 15px;">
+                <ul class="pop-list">
+                    @*<li class="line">
+                            <h5><span>联系方式</span></h5>
+                        </li>*@
+                    <li>
+                        <label>手机号码</label>
+                        <input id="F_MobilePhone" name="F_MobilePhone" type="text" class="form-control" />
+                    </li>
+                    <li>
+                        <label>电子邮箱</label>
+                        <input id="F_Email" name="F_Email" type="text" class="form-control" />
+                    </li>
+                    <li>
+                        <label>微信号</label>
+                        <input id="F_WeChat" name="F_WeChat" type="text" class="form-control" />
+                    </li>
+                </ul>
+            </div>
+            @*<div id="d" class="tab-pane" style="padding-right: 15px;">
+                    4
+                </div>*@
+        </div>
+    </div>
+    @Html.Hidden("UserID", @ViewData["UserID"])
+
+</form>
+
+
+<script>
+
+    $(function () {
+        $('.wrapper').height($(window).height() - 11);
+
+        var keyValue = $("#UserID").val();
+        $.ajax({
+            url: "/SystemManage/User/GetFormJson",
+            data: { keyValue: keyValue },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#form1").formSerialize(data);
+            }
+        });
+    });
+
+    function btn_revisepassword() {
+        var keyValue = $("#UserID").val();
+        var Account = $("#F_Account").val();
+        var RealName = $("#F_RealName").val();
+        $.modalOpen({
+            id: "RevisePassword",
+            title: '重置密码',
+            url: '/SystemManage/User/RevisePassword?keyValue=' + keyValue + "&account=" + escape(Account) + '&realName=' + escape(RealName),
+            width: "450px",
+            height: "260px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+
+</script>
+

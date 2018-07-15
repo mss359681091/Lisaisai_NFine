@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-ui.css" rel="stylesheet" />
+    <link href="~/Content/js/webuploader-0.1.5/webuploader.css" rel="stylesheet" />
+    <link href="~/Content/js/webuploader-0.1.5/webuploader-demo.css" rel="stylesheet" />
+
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+    <script src="~/Content/js/webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="~/Content/js/framework-ui.js"></script>
+    <style>
+        .wrapper {
+            margin: 20px;
+        }
+
+        .row {
+            margin: 0;
+        }
+
+        .alert {
+            margin-bottom: 0px;
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+        <input id="param_uploader" type="hidden" />
+        <div class="wrapper wrapper-content animated fadeIn">
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content" style="padding:0 20px;">
+                            <h2>
+                                文件上传
+                            </h2>
+                            <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮。</p>
+                            <div class="alert alert-warning">
+                                温馨提示：上传文件数量上限：300，上传总大小上限：500MB，单个文件大小上限：100MB。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="ibox float-e-margins">
+
+                        <div class="ibox-content">
+                            <div class="page-container">
+                                <div id="uploader" class="wu-example">
+                                    <div class="queueList">
+                                        <div id="dndArea" class="placeholder">
+                                            <div id="filePicker"></div>
+                                            <p>或将照片拖到这里，单次最多可选300张</p>
+                                        </div>
+                                    </div>
+                                    <div class="statusBar" style="display:none;">
+                                        <div class="progress">
+                                            <span class="text">0%</span>
+                                            <span class="percentage"></span>
+                                        </div>
+                                        <div class="info"></div>
+                                        <div class="btns">
+                                            <div id="filePicker2"></div>
+                                            <div class="uploadBtn">开始上传</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+    </div>
+</body>
+</html>

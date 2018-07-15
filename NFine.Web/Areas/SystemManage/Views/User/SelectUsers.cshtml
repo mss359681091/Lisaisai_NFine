@@ -1,0 +1,231 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/css/animate.min.css" rel="stylesheet" />
+<link href="~/Content/css/style.min.css" rel="stylesheet" />
+<link href="~/Content/js/iCheck/skins/all.css" rel="stylesheet" />
+<script src="~/Content/js/iCheck/icheck.min.js"></script>
+<script>
+    $(function () {
+        fnIni();
+        treeView();
+        fnloadUsers();
+
+    });
+
+    function fnIni() {
+        $('#layout').layout();
+
+        $("#btn_search").click(function () {
+            fnloadUsers();
+        });
+
+    }
+
+    function treeView() {
+        $("#itemTree").treeview({
+            url: "/SystemManage/Organize/GetTreeJson",
+            onnodeclick: function (item) {
+                $("#txt_keyword").val('');
+                $('#btn_search').trigger("click");
+            }
+        });
+    }
+
+    function fnloadUsers() {
+        var keyword = $("#txt_keyword").val()
+        var organizeId = '';
+        var departmentId = '';
+        if ($("#itemTree").getCurrentNode() != null) {
+            departmentId = $("#itemTree").getCurrentNode().id;
+        }
+        var strhtm = '';
+        var loadindex = null;
+        $.ajax({
+            url: "/SystemManage/User/GetUserlstJson",
+            data: { organizeId: organizeId, departmentId: departmentId, keywords: keyword },
+            beforeSend: function () {
+                loadindex = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            complete: function (data) {
+                layer.close(loadindex);
+            },
+            dataType: "json",
+            async: true,
+            method: 'post',
+            success: function (data) {
+
+                if (data.length == 0) {
+                    $("#rowusers").empty();
+                    $.modalMsg('暂无人员！', 'warning');
+                    return;
+                }
+                $.each(data, function (i) {
+                    var imgpath = data[i].F_HeadIcon;
+                    if (imgpath == null) {
+                        imgpath = "/Content/img/ArchivesHeader.jpg";
+                    }
+                    var dutyName = data[i].DutyName == null ? "无职位" : data[i].DutyName;
+                    var organizeName = data[i].OrganizeName == null ? "无公司" : data[i].OrganizeName;
+                    var department = data[i].DepartmentName == null ? "无部门" : data[i].DepartmentName;
+
+                    strhtm += '<div class="contact-box">';
+                    strhtm += '<input type="checkbox" class="chk" id="' + data[i].UserId + '">';
+                    strhtm += '<a href="#">';
+                    strhtm += '<div class="col-sm-4">';
+                    strhtm += '<div class="text-center">';
+                    strhtm += '<img alt="image" class="img-circle m-t-xs img-responsive" src="' + imgpath + '">';
+                    strhtm += '<div class="m-t-xs font-bold">' + dutyName + '</div>';
+                    strhtm += '</div>';
+                    strhtm += '</div>';
+                    strhtm += '<div class="">';
+                    strhtm += '<h3>' + data[i].F_RealName + '</h3>';
+                    strhtm += '<p><i class="fa fa-phone-square"></i>13757493417</p>';
+                    strhtm += '<p><i class="fa fa-sitemap"></i>' + department + '</p>';
+                    strhtm += '</div>';
+                    strhtm += '<div class="clearfix"></div>';
+                    strhtm += '</a>';
+                    strhtm += '</div>';
+
+                });
+                $("#rowusers").empty().append(strhtm);
+
+                fnAgain();//二次加载
+            }
+        });
+    }
+
+    function fnChkStyle() {
+        $(".contact-box a").click(function () {
+            var $chk = $(this).parents(".contact-box").find(".chk");
+            var flag = 'check';
+            if ($chk.is(':checked')) {
+                flag = 'uncheck';
+            }
+            $chk.iCheck(flag);
+            fnShowIds();
+        });
+
+        $(".contact-box a").mouseover(function () {
+            var $chkbox = $(this).parents(".contact-box").find(".icheckbox_minimal-green");
+            $chkbox.show();
+        }).mouseout(function () {
+            var $chkbox = $(this).parents(".contact-box").find(".icheckbox_minimal-green");
+            var $chk = $(this).parents(".contact-box").find(".chk");
+            if ($chk.is(':checked')) {
+                return;
+            }
+            $chkbox.hide();
+        });
+    }
+
+    function fnAgain() {
+        $('.chk').iCheck({
+            handle: 'checkbox',
+            checkboxClass: 'icheckbox_minimal-green',
+            radioClass: 'iradio_minimal-green'
+        });
+
+        fnChkStyle();
+    }
+
+    function fnShowIds() {
+        var selectedData = '';
+        var selectedVal = '';
+        $(".contact-box :checkbox:checked").each(function () {
+            var id = $(this).attr("id");
+            var val = $(this).parents(".contact-box").find("h3").text();
+            selectedData += id + ",";
+            selectedVal += val + ",";
+        });
+        $("#hidIds").val(selectedData.substring(0, selectedData.length - 1));
+        $("#hidIds").data("vals", selectedVal.substring(0, selectedVal.length - 1));
+    }
+
+    function submitForm() {
+        var selUsers_ids = $("#hidIds").val();
+        var selUsers_vals = $("#hidIds").data("vals");
+        top.Form.$("#txt_users").val(selUsers_vals).data("ids", selUsers_ids);
+        $.modalClose();
+    }
+</script>
+
+<style>
+    .contact-box {
+        padding: 20px 0px;
+        width: 224px;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        position: relative;
+    }
+
+        .contact-box:hover {
+            box-shadow: inset 0px 0px 10px #1ABC9C;
+        }
+
+        .contact-box img {
+            margin-bottom: 10px;
+        }
+
+        .contact-box p i {
+            margin-right: 5px;
+        }
+
+    .col-sm-3 {
+        padding-right: 0px;
+    }
+
+    .wrapper {
+        margin: 0 5px;
+        border-width: 0px;
+    }
+
+    .wrapper-content {
+        padding: 5px 20px;
+    }
+
+    .icheckbox_minimal-green {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        display: none;
+    }
+</style>
+
+<div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
+    <input type="hidden" value="" id="hidIds" />
+    <div class="ui-layout-west">
+        <div id="itemTree"></div>
+    </div>
+    <div class="ui-layout-center">
+        <div class="topPanel">
+            <div class="search">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input id="txt_keyword" type="text" class="form-control" placeholder="姓名/昵称/用户名" style="width: 200px;">
+                                <span class="input-group-btn">
+                                    <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" id="rowusers">
+            </div>
+        </div>
+
+    </div>
+</div>
+

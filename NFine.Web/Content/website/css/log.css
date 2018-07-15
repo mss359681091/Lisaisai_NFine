@@ -1,0 +1,619 @@
+﻿@charset "utf-8";
+input:-webkit-autofill {
+-webkit-box-shadow : 0 0 0px 1000px #eef2f5 inset ; 
+}
+
+/*公共部分*/
+body {
+    font-family: "微软雅黑";
+    font-size: 14px;
+    color: #737373;
+    margin: 0px;
+    margin: 0 auto;
+    width: 100%;
+    list-style: none;
+    height: 100%;
+    background: #ffffff;
+    position: relative;
+}
+
+a {
+    color: #737373;
+    outline: none;
+    font-style: normal;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    a:hover {
+        color: #737373;
+        text-decoration: none;
+    }
+
+ul, li, p, form, span, em, b, dl, dd, i {
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+    color: #505966;
+    list-style-type: none;
+}
+
+li {
+    list-style-type: none;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+img {
+    border: 0;
+    display: block;
+}
+
+strong {
+    color: #000;
+}
+
+.clear {
+    clear: both;
+}
+
+input {
+    outline: 0;
+}
+
+
+
+/**头部**/
+
+header {
+    background: #ffffff;
+    width: 100%;
+    height: 100px;
+}
+
+.head {
+    width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.trademark {
+    width: 145px;
+    height: 40px;
+    background-image: url(../images/logo1.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    float: left;
+    margin-top: 30px;
+}
+
+.trademark-text {
+    float: right;
+    margin-top: 27px;
+    font-size: 18px;
+    text-align: center;
+}
+
+    .trademark-text p {
+        font-size: 14px;
+        line-height: 30px;
+    }
+
+section {
+    background-color: #000000;
+    width: 100%;
+    height: 660px;
+}
+
+.section {
+    width: 1024px;
+    height: 660px;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url(../images/logbj.png);
+    background-repeat: no-repeat;
+}
+/**登入**/
+.log-bj {
+    width: 390px;
+    height: 470px;
+    background-color: #ffffff;
+    float: right;
+    border-radius: 5px;
+    z-index: 20;
+    margin-top: 50px;
+}
+
+.log-head {
+    width: 425px;
+    height: 70px;
+}
+
+.pag {
+    position: relative;
+}
+
+.log-title {
+    color: #00a86b;
+    font-size: 20px;
+    font-weight: bolder;
+    float: left;
+    margin-left: 25px;
+    margin-top: 25px;
+}
+
+.log-right {
+    background-image: url(../images/seek.png);
+}
+
+.log-change {
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+    cursor: pointer;
+    z-index: 40;
+    position: relative;
+}
+
+.log-safe {
+    float: right;
+    border: #00a86b solid 0.5px;
+    padding: 4px;
+    margin-top: 25px;
+    margin-right: -20px;
+    font-size: 12px;
+}
+
+    .log-safe i, span {
+        color: #00a86b;
+    }
+
+.log-pc {
+    background-image: url(../images/dn.png);
+    width: 72px;
+    height: 72px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.log-code {
+    background-image: url(../images/rwm.png);
+    width: 72px;
+    height: 72px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: none;
+    cursor: pointer;
+}
+
+.triangle_border_right {
+    width: 0;
+    height: 0;
+    top: 35px;
+    right: -308px;
+    border-width: 5px 0 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #00a86b; /*透明 透明 透明 灰*/
+    position: relative;
+}
+
+    .triangle_border_right span {
+        display: block;
+        width: 0;
+        height: 0;
+        top: -5px;
+        left: -6px;
+        border-width: 5px 0 5px 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent #ffffff; /*透明 透明 透明 白*/
+        position: absolute;
+    }
+
+.log-logo {
+    width: 130px;
+    height: 40px;
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-image: url(../images/logo1.png);
+}
+
+.log-fill {
+    width: 330px;
+    margin: auto;
+}
+
+    .log-fill li {
+        width: 300px;
+        height: 50px;
+        font-size: 18px;
+        padding: 0 15px;
+        background-color: #eef2f5;
+        display: block;
+        margin-top: 16px;
+        border-radius: 5px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .log-fill label {
+        width: 40px;
+        height: 50px;
+        line-height: 50px;
+        float: left;
+        font-size: 22px;
+    }
+
+    .log-fill i {
+        font-weight: 600;
+        font-size: 22px;
+        color: #00a86b;
+    }
+
+    .log-fill input {
+        width: 250px;
+        height: 50px;
+        padding: 0 5px;
+        border: 0;
+        line-height: 50px;
+        float: left;
+        font-size: 16px;
+        color: #30385f;
+        background: none;
+    }
+
+.log-ver {
+    width: 330px;
+    margin-top: 20px;
+    height: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.log-text {
+    width: 330px;
+    line-height: 50px;
+    font-size: 20px;
+    padding: 0 15px;
+    background-color: #00a86b;
+    color: #ffffff;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.log-text-two {
+    width: 330px;
+    line-height: 50px;
+    font-size: 20px;
+    padding: 0 15px;
+    background-color: #00a86b;
+    color: #ffffff;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 90px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.log-text:hover {
+    background-color: #009c63;
+}
+
+.code-pic {
+    width: 190px;
+    height: 190px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    background: url(../images/rwm1.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.code-text {
+    text-align: center;
+    font-size: 14px;
+    line-height: 50px;
+    color: #737373;
+    padding-bottom: 30px;
+}
+
+    .code-text i {
+        color: #00a86b;
+        font-size: 20px;
+        margin-right: 5px;
+        font-weight: bold;
+    }
+
+.code-right {
+    float: right;
+    margin-right: 25px;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+    .code-right a {
+        padding: 0 5px;
+    }
+
+        .code-right a:hover {
+            color: #00a86b;
+        }
+
+.errormsg {
+    color: red;
+    margin: 10px 0 0 35px;
+}
+
+.forget-password {
+    float: right;
+    color: #666;
+    cursor: pointer;
+}
+
+.log-btm {
+    width: 330px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.log-other {
+    height: 45px;
+    float: left;
+}
+
+    .log-other li {
+        display: block;
+        float: left;
+        margin: 0 5px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+.icon-changyonglogo29 {
+    background-color: #ff564f;
+    color: #ffffff;
+}
+
+    .icon-changyonglogo29:hover {
+        background-color: #fdb0af;
+        color: #ffffff;
+    }
+
+.icon-changyonglogo33 {
+    background-color: #f68226;
+    color: #ffffff;
+}
+
+    .icon-changyonglogo33:hover {
+        background-color: #f9c49c;
+        color: #ffffff;
+    }
+
+.icon-changyonglogo30 {
+    background-color: #65a3de ;
+    color: #ffffff;
+}
+
+    .icon-changyonglogo30:hover {
+        background-color: #8cdd90;
+        color: #ffffff;
+    }
+
+.icon-changyonglogo28 {
+    background-color: #00b409;
+    color: #ffffff;
+}
+
+    .icon-changyonglogo28:hover {
+        background-color: #b8d3ef;
+        color: #ffffff;
+    }
+
+.free-registration a {
+    float: right;
+    line-height: 25px;
+    font-size: 14px;
+}
+
+    .free-registration a:hover {
+        color: #00a86b;
+    }
+/**注册**/
+.reg-logo {
+    width: 130px;
+    height: 40px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url(../images/logo1.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.reg-fill {
+    width: 330px;
+    margin: auto;
+    margin-top: 15px;
+}
+
+    .reg-fill li {
+        width: 300px;
+        height: 50px;
+        font-size: 18px;
+        background-color: #eef2f5;
+        display: block;
+    }
+
+.phone {
+    width: 320px;
+    padding: 0 5px;
+    border: 0;
+    line-height: 50px;
+    float: left;
+    font-size: 16px;
+    color: #30385f;
+    background-color: #eef2f5;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.code-num {
+    width: 150px;
+    padding: 0 5px;
+    border: 0;
+    line-height: 50px;
+    float: left;
+    font-size: 16px;
+    color: #30385f;
+    background-color: #eef2f5;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.reg-fill button {
+    width: 100px;
+    height: 48px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-left: 20px;
+    border: none;
+    background-color: #00a86b;
+    color: #ffffff;
+}
+
+    .reg-fill button:hover {
+        background-color: #009c63;
+    }
+
+.reg-text {
+    width: 330px;
+    line-height: 50px;
+    font-size: 22px;
+    padding: 0 15px;
+    background-color: #00a86b;
+    color: #ffffff;
+    display: block;
+    margin-top: 100px;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 5px;
+    letter-spacing: 15px;
+}
+
+    .reg-text:hover {
+        background-color: #009c63;
+    }
+
+.existing-account {
+    text-align: center;
+    color: #737373;
+    font-size: 14px;
+    padding: 0 0 20px 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .existing-account a {
+        color: #009b63;
+        /*text-decoration: underline;*/
+        cursor: pointer;
+    }
+
+footer {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+    footer ul {
+        width: 782px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    footer li {
+        width: 160px;
+        display: block;
+        float: left;
+        border-right: #737373 solid 1px;
+        padding: 0 50px;
+        color: #737373;
+    }
+
+    footer h {
+        font-size: 14px;
+        line-height: 30px;
+        color: #737373;
+    }
+
+.right {
+    border: none;
+}
+
+footer p {
+    font-size: 12px;
+    color: #737373;
+}
+
+.bottom {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 15px;
+    line-height: 30px;
+    padding-top: 20px;
+}
+
+    .bottom a:hover {
+        color: #009b63;
+    }
+
+.dian {
+    font-weight: 550;
+    margin: -20px 5px 0px 5px;
+    color: #737373;
+}
+
+
+
+@media (max-height: 850px) {
+    section {
+        height: 560px;
+    }
+
+    .section {
+        height: 560px;
+    }
+}
+
+@media (min-height: 850px) {
+    section {
+        height: 660px;
+    }
+
+    .section {
+        height: 660px;
+    }
+}

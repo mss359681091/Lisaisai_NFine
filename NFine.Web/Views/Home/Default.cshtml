@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="~/Content/css/framework-font.css" rel="stylesheet" />
+    <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/js/bootstrap/bootstrap.min.js"></script>
+
+    <script src="~/Content/js/echarts/echarts.min.js"></script>
+    <link href="~/Content/js/toastr/toastr.min.css" rel="stylesheet" />
+    <script src="~/Content/js/toastr/toastr.min.js"></script>
+
+    <link href="~/Content/css/framework-ui.css" rel="stylesheet" />
+    <script src="~/Content/js/framework-ui.js"></script>
+
+    <script>
+        $(function () {
+            loadMenu();
+            fnIni();
+        });
+
+        //初始化
+        function fnIni() {
+            var now = new Date();
+            var year = now.getFullYear().toString() + "年";
+            $("#yearNow").text(year);
+
+            window.onresize = function () {
+                myChart.resize();
+                myChartPie.resize();
+            }
+            //添加菜单
+            $(document).on("click", "#addMenu", function () {
+                $.modalOpen({
+                    id: "Form",
+                    title: "添加快捷操作",
+                    url: "/Home/Form",
+                    width: "80%",
+                    height: "80%",
+                    callBack: function (iframeId) {
+                        top.frames[iframeId].submitForm();
+                    }
+                });
+            })
+        }
+
+        //二次加载
+        function fnAgain() {
+            $(".shortcutbtn").hover(function () {
+                $(this).removeClass("default-bg").addClass("yellow-bg");
+            }, function () {
+                $(this).removeClass("yellow-bg").addClass("default-bg");
+            });
+
+            $(".shortcutbtn").unbind("click").bind("click", function () {
+                var txtSearch = $.trim($(this).find("h5").text().toString()); // 去掉两头空格
+                if (txtSearch != '') {
+                    $(this).removeClass("yellow-bg").addClass("default-bg");
+                    top.$(".menuItem:contains('" + txtSearch + "')").trigger("click");
+                }
+            })
+        }
+
+        //提醒
+        function showRemind(title, remind) {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "showDuration": "0",
+                "hideDuration": "0",
+                "timeOut": "20000",
+                "extendedTimeOut": "0",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            toastr.options.onclick = function () {
+                //$("a[data-id='IC0102']").click();
+                //newc('/PCenter/MessageCenter','消息中心','IC0101',7);
+            };
+
+            var $toast = toastr["warning"](remind, title);
+        }
+
+        //加载快捷操作
+        function loadMenu() {
+            $.ajax({
+                type: "get",
+                url: "/Home/GetQuickActionsJson",
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    var _html = "";
+                    $.each(data, function (i) {
+                        var row = data[i];
+                        _html += '<div class="widget default-bg shortcutbtn p-lg text-center col-sm-1"><div class="m-b-md">';
+                        _html += '<i class="' + row.F_ModuleType + ' fa-2x"></i><h5 class="font-bold no-margins">' + row.F_FullName + '</h5>';
+                        _html += '</div></div>';
+                    });
+                    $("#menuList").empty().prepend(_html);
+                    fnAgain();
+
+                }
+            });
+        }
+
+    </script>
+    <style>
+        .lazur-bg {
+            background-color: #23c6c8;
+            color: #fff;
+        }
+
+        .navy-bg {
+            background-color: #1ab394;
+            color: #fff;
+        }
+
+        .yellow-bg {
+            background-color: #f8ac59;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .widget {
+            border-radius: 5px;
+            padding: 15px 20px;
+            /*margin-bottom: 10px;
+            margin-top: 10px;*/
+        }
+
+        .fa-5x {
+            margin-top: 15px;
+        }
+
+        .widget1 {
+            border-radius: 5px;
+            padding: 8px;
+            /*margin-bottom: 10px;
+            margin-top: 10px;*/
+        }
+
+        #mytask a {
+            width: 70%;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="areascontent">
+        <div class="rows" style="margin-bottom: 1%; overflow: hidden;">
+            <div style="float: left; width: 20%;">
+
+                <div style="min-height:150px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-hdd-o fa-lg" style="padding-right: 5px;"></i>工作任务
+                            <div style="float: right">
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0px; height:130px">
+                            <div class="widget style1 yellow-bg">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <i class="fa fa-coffee fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-8 text-right">
+                                        <span> 设计中 / 制作中 </span>
+                                        <h3 class="font-bold">5 / 2 </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div>
+                                    <div>
+                                        <span>设计中</span>
+                                        <small id="sm_space" class="pull-right">2/5</small>
+                                    </div>
+                                    <div class="progress progress-small" style="margin-top:4px">
+                                        <div id="ratio_1" style="width: 40%;" class="progress-bar progress-bar-info"></div>
+                                    </div>
+                                    <div>
+                                        <span>制作中</span>
+                                        <small id="sm_total" class="pull-right">1/2</small>
+                                    </div>
+                                    <div class="progress progress-small" style="margin-top:4px">
+                                        <div id="ratio_2" style="width: 50%;" class="progress-bar"></div>
+                                    </div>
+                                </div>*@
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div style="float: left; width: 20%;">
+
+                <div style="min-height:150px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-database fa-lg" style="padding-right: 5px;"></i>数据备份
+                            <div style="float: right">
+                                <span class="label label-info">3天前</span>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0px;height:130px">
+
+                            <div class="widget style1 navy-bg">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <i class="fa fa-database fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-8 text-right">
+                                        <span> 最后备份日期 </span>
+                                        <h5 id="backupLastDate" class="font-bold"></h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div style="float: left; width: 20%;">
+
+                <div style="min-height:150px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-cloud-download fa-lg" style="padding-right: 5px;"></i>订单总数
+                            <div style="float: right">
+                                <span class="label label-info">实时</span>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0px;height:130px">
+                            <div class="widget style1 lazur-bg">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <i class="fa fa-barcode fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-8 text-right">
+                                        <span> 已完成 </span>
+                                        <h3 id="downloadCount" class="font-bold">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div style="float: left; width: 40%;">
+
+                <div style="min-height:150px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-image  fa-lg" style="padding-right: 5px;"></i>我的待办
+                            <div style="float: right">
+                                <span class="label label-warning">待处理</span>
+                            </div>
+                        </div>
+                        <div id="mytask" class="panel-body" style="padding-bottom: 0px;height:130px">
+                            <ul>
+                                <li><a href="#"> 罗先生，订单号：201710240817068509822769</a><span class="time">2016-07-21</span></li>
+                                <li><a href="#"> 李先生，订单号：201710240817068509822769</a><span class="time">2016-07-20</span></li>
+                                <li><a href="#"> 刘女士，订单号：201710240817068509822769</a><span class="time">2016-07-19</span></li>
+                                <li><a href="#"> 赵老板，订单号：201710240817068509822769</a><span class="time">2016-07-17</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div id="shortcutbtn" class="rows" style="margin-bottom: 1%; overflow: hidden;">
+            <div style="float: left; width: 100%;">
+                <div style="min-height:110px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-paper-plane-o fa-lg" style="padding-right: 5px;"></i>快捷操作
+                            <div style="float: right">
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0px; height:90px">
+
+                            <div id="menuList">
+                            </div>
+
+                            <div id="addMenu" class="widget default-bg shortcutbtn p-lg text-center col-sm-1">
+                                <div class="m-b-md">
+                                    <i class="fa fa-plus fa-2x"></i>
+                                    <h5 class="font-bold no-margins">
+                                        添加菜单
+                                    </h5>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rows" style="margin-bottom: 1%; overflow: hidden;">
+            <div style="float: left; width: 69%;">
+                <div style="height: 350px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-area-chart fa-lg" style="padding-right: 5px;"></i>订单统计
+                            <div style="float: right">
+                                <span id="yearNow" class="label label-primary">2018年</span>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0px;">
+                            <div id="line_1" style="width:100%;height:285px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 30%;">
+                <div style="height: 350px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>订单类型</div>
+                        <div class="panel-body" style="padding-top: 20px;">
+                            <div id="pie_1" style="width:100%;height:285px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <style>
+        #copyrightcontent {
+            height: 30px;
+            line-height: 29px;
+            overflow: hidden;
+            position: absolute;
+            top: 100%;
+            margin-top: -30px;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .dashboard-stats {
+            float: left;
+            width: 20%;
+        }
+
+        .dashboard-stats-item {
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            cursor: pointer;
+            height: 105px;
+            margin-right: 25px;
+            margin-bottom: 10px;
+            padding: 20px 20px;
+        }
+
+            .dashboard-stats-item .m-top-none {
+                margin-top: 2px;
+            }
+
+            .dashboard-stats-item h2 {
+                font-size: 35px;
+                font-family: inherit;
+                line-height: 1.1;
+                font-weight: 500;
+            }
+
+            .dashboard-stats-item h5 {
+                font-size: 14px;
+                font-family: inherit;
+                margin-top: 3px;
+                line-height: 1.1;
+            }
+
+
+            .dashboard-stats-item .stat-icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 30px;
+                opacity: .3;
+            }
+
+        .dashboard-stats i.fa.stats-icon {
+            width: 50px;
+            padding: 20px;
+            font-size: 50px;
+            text-align: center;
+            color: #fff;
+            height: 50px;
+            border-radius: 10px;
+        }
+
+        .panel-default {
+            border: none;
+            border-radius: 0px;
+            margin-bottom: 0px;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+
+            .panel-default > .panel-heading {
+                color: #777;
+                background-color: #fff;
+                border-color: #e6e6e6;
+                padding: 10px 10px;
+            }
+
+            .panel-default > .panel-body {
+                padding: 10px;
+                padding-bottom: 0px;
+            }
+
+                .panel-default > .panel-body ul {
+                    overflow: hidden;
+                    padding: 0;
+                    margin: 0px;
+                    margin-top: -5px;
+                }
+
+                    .panel-default > .panel-body ul li {
+                        line-height: 27px;
+                        list-style-type: none;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+
+                        .panel-default > .panel-body ul li .time {
+                            color: #a1a1a1;
+                            float: right;
+                            padding-right: 5px;
+                        }
+
+        .default-bg {
+            background-color: #bababa;
+            color: #fff;
+        }
+
+        .shortcutbtn {
+            padding: 10px 10px 0px 10px;
+            margin-right: 10px;
+            width: 100px;
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>

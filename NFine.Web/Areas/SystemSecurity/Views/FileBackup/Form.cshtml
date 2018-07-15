@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<link href="~/Content/js/iCheck/skins/all.css" rel="stylesheet" />
+<script src="~/Content/js/iCheck/icheck.min.js"></script>
+<script>
+
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+    });
+    function initControl() {
+
+        //初始化iCheck
+        $('#chkDrop').iCheck({
+            handle: 'checkbox',
+            checkboxClass: 'icheckbox_minimal-green',
+            radioClass: 'iradio_minimal-green'
+        });
+
+        $("#F_ServerIp").bindSelect({
+            url: "/SystemSecurity/BackupServer/GetServerIpJson"
+        });
+
+
+        $("#F_ServerIp").bindSelect();
+
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemSecurity/FileBackup/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    }
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/SystemSecurity/FileBackup/SubmitForm?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                 $.currentWindow().$.IntervalLoad();
+            }
+        })
+    }
+</script>
+
+<form id="form1">
+
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">服务器名</th>
+                <td class="formValue">
+                    <select id="F_ServerIp" name="F_ServerIp" class="form-control required"></select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">备份名称</th>
+                <td class="formValue">
+                    <input id="F_BackupName" name="F_BackupName" type="text" class="form-control required" value="" placeholder="请输入备份名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">备份目录</th>
+                <td class="formValue">
+                    <input id="F_BackupPath" name="F_BackupPath" type="text" class="form-control required" value="" placeholder="请输入备份目录" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">备份类型</th>
+                <td class="formValue">
+                    <select id="F_BackupType" name="F_BackupType" class="form-control">
+                        <option value="2">全部</option>
+                        <option value="0">图片</option>
+                        <option value="1">源文件</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">清空目录</th>
+                <td class="formValue">
+                    <input type="checkbox" id="chkDrop">
+                    <label for="chkDrop">  清空目录</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th class="formTitle">备份文件</th>
+                <td class="formValue">
+                    <input id="F_FileName" name="F_FileName" type="text" class="form-control " value="" disabled="disabled" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">初次备份</th>
+                <td class="formValue">
+                    <input id="F_CreatorTime" name="F_CreatorTime" type="text" class="form-control " value="" disabled="disabled" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">最后备份</th>
+                <td class="formValue">
+                    <input id="F_LastModifyTime" name="F_LastModifyTime" type="text" class="form-control " value="" disabled="disabled" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle" valign="top" style="padding-top: 11px;">
+                    备注
+                </th>
+                <td class="formValue">
+                    <textarea id="F_Description" name="F_Description" class="form-control" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

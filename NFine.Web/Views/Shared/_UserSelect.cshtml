@@ -1,0 +1,38 @@
+﻿<div class="input-group" style="width:100%">
+    <input id="txt_users" name="txt_users" data-ids="" type="text" class="form-control required" placeholder="" style="width:100%" />
+    <span class="input-group-btn">
+        <a class="btn  btn-primary" onclick="btn_selUsers()" style="height:22px"><i class="fa fa-ellipsis-h"></i></a>
+    </span>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        var ids = $("#txt_users").data("ids");
+        if (ids != null && ids != "") {
+            $.ajax({
+                url: "/SystemManage/User/GetUserNames",
+                data: { fids: ids },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state == 'success') {
+                        $('#txt_users').val(data.message);
+                    }
+                }
+            });
+        }
+    });
+
+    function btn_selUsers() {
+        $.modalOpen({
+            id: "CustomerList",
+            title: "选人控件",
+            url: "/SystemManage/User/SelectUsers",
+            width: "80%",
+            height: "80%",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+</script>

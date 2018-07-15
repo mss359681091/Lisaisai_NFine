@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "快捷桌面";
+    Layout = "~/Views/Shared/_LayoutIndex-h+.cshtml";
+}
+<style>
+    .b {
+        /*background-color:green;*/
+    }
+
+    .b2 {
+        color: green;
+    }
+</style>
+<script src="~/Content/js/layer/layer.js"></script>
+<script>
+    var array = [];
+    $(function () {
+        loadMenu();
+        $(".choose").click(function () {
+            $(this).toggleClass("b");
+            $(this).find("i").toggleClass("b2");
+            $(this).find("h5").toggleClass("b2");
+        });
+        getMenu();
+    });
+
+    function getMenu() {
+        $.ajax({
+            type: "get",
+            url: "/Home/GetQuickActionsJson",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var id = "#" + data[i].F_ModuleId;
+                    $(id).toggleClass("b");
+                    $(id).find("i").toggleClass("b2");
+                    $(id).find("h5").toggleClass("b2");
+                }
+            }
+        });
+    }
+
+    function loadMenu() {
+        var data = top.clients.authorizeMenu;
+        var _html = "";
+        $.each(data, function (i) {
+            var row = data[i];
+            if (row.F_ParentId == "0") {
+                _html += '<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseOne">' + row.F_FullName + '</a></h5></div><div class="panel-collapse collapse in"><div class="panel-body">';
+                var childNodes = row.ChildNodes;
+                if (childNodes.length > 0) {
+                    $.each(childNodes, function (i) {
+                        var subrow = childNodes[i];
+                        _html += '<div id="' + subrow.F_Id + '" class="widget default-bg shortcutbtn p-lg text-center col-sm-1 choose" style="cursor: pointer;padding-top: 10px; padding: 0px; margin-bottom: 0px;"><div class="m-b-sm">';
+                        _html += '<i class="' + subrow.F_Icon + ' fa-2x m-b-sm"></i><h5 class="font-bold no-margins">' + subrow.F_FullName + '</h5>';
+                        _html += '</div></div>';
+                        var arrayJson = { F_ModuleId: '', F_ModuleType: '', F_FullName: '' };
+                        arrayJson.F_ModuleId = subrow.F_Id;
+                        arrayJson.F_ModuleType = subrow.F_Icon;
+                        arrayJson.F_FullName = subrow.F_FullName;
+                        array.push(arrayJson);
+                    });
+                }
+                _html += '</div></div></div>';
+            }
+        });
+        $("#menuList").prepend(_html);
+    }
+
+    function submitForm() {
+        var jsonData = "";
+        var arrayData = [];
+        var data = { F_ModuleId: '', F_ModuleType: '', F_FullName: '' };
+        var a = $(".b");
+        for (var i = 0; i < array.length; i++) {
+            for (var j = 0; j < a.length; j++) {
+                if (a[j].id == array[i].F_ModuleId) {
+                    arrayData.push(array[i]);
+                }
+            }
+        }
+        jsonData = JSON.stringify(arrayData);
+        $.ajax({
+            type: "get",
+            url: "/Home/SubmitMenuListForm?jsonData=" + jsonData,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+
+                top.Home_Default.contentWindow.loadMenu();
+                $.modalClose();
+            }
+        });
+    }
+
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel-body">
+            <div class="panel-group" id="accordion">
+                <div id="menuList">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
