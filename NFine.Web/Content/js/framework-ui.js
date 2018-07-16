@@ -449,6 +449,7 @@ $.IntervalLoad = function () {
 /*自定义js*/
 
 
+
 //获取多选主键集合
 $.fn.jqGridRowIds = function () {
     var $grid = $(this);
@@ -489,3 +490,47 @@ function getUserName(fid) {
     });
     return result;
 };
+
+// 对Date的扩展，将 Date 转化为指定格式的String 
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+// 例子： 
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+// (new Date()).Format("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18 
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    fmt = fmt || "yyyy-MM-dd";
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+
+// 截取字符串 中英文混合
+function subString1(str, len) {
+    var regexp = /[^\x00-\xff]/g;// 正在表达式匹配中文
+    // 当字符串字节长度小于指定的字节长度时
+    if (str.replace(regexp, "aa").length <= len) {
+        return str;
+    }
+    // 假设指定长度内都是中文
+    var m = Math.floor(len / 2);
+    for (var i = m, j = str.length; i < j; i++) {
+        // 当截取字符串字节长度满足指定的字节长度
+        if (str.substring(0, i).replace(regexp, "aa").length >= len) {
+            return str.substring(0, i) + '...';
+        }
+    }
+    return str;
+}
