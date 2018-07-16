@@ -115,10 +115,9 @@ $.modalConfirm = function (content, callBack) {
         title: "系统提示",
         btn: ['确认', '取消'],
         btnclass: ['btn btn-primary', 'btn btn-danger'],
-    }, function () {
+    }, function (index) {
         callBack(true);
-    }, function () {
-        callBack(false)
+        top.layer.close(index);
     });
 }
 $.modalAlert = function (content, type) {

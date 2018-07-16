@@ -157,11 +157,12 @@
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalConfirm("注：您确定要【启用】该项账户吗？", function (r) {
             if (r) {
+                
                 $.submitForm({
                     url: "/SystemManage/User/EnabledAccount",
                     param: { keyValue: keyValue },
                     success: function () {
-                         $.currentWindow().$.IntervalLoad();
+                        $.currentWindow().$.IntervalLoad();
                     }
                 })
             }
