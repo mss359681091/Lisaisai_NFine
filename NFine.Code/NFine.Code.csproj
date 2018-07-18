@@ -99,6 +99,7 @@
     <Compile Include="Log\LogFactory.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="Net\HttpMethods.cs" />
+    <Compile Include="Net\IpHelper.cs" />
     <Compile Include="Net\Net.cs" />
     <Compile Include="Operator\OperatorModel.cs" />
     <Compile Include="Operator\OperatorProvider.cs" />

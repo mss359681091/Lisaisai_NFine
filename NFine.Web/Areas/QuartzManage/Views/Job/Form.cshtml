@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script>
+    var keyValue = $.request("keyValue");
+    var itemId = $.request("itemId");
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/QuartzManage/Job/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/QuartzManage/Job/SubmitForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$.IntervalLoad();
+            }
+        })
+    }
+</script>
+
+<style>
+    .width120 {
+        width: 120px;
+    }
+</style>
+
+<form id="form1">
+    <div style="padding-top: 20px; margin-right: 20px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle width120">任务名称</th>
+                <td class="formValue">
+                    <input id="JOBNAME" name="JOBNAME" type="text" maxlength="50" class="form-control required" placeholder="请输入任务名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">任务组</th>
+                <td class="formValue">
+                    <input id="JOBGROUPNAME" name="JOBGROUPNAME" type="text" maxlength="50" class="form-control" placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">触发器</th>
+                <td class="formValue">
+                    <input id="TRIGGERNAME" name="TRIGGERNAME" type="text" maxlength="50" class="form-control required" placeholder="请输入触发器名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">触发器组</th>
+                <td class="formValue">
+                    <input id="TRIGGERGROUPNAME" name="TRIGGERGROUPNAME" type="text" maxlength="50" class="form-control" placeholder="" />
+                </td>
+            </tr>
+
+            <tr>
+                <th class="formTitle">执行周期</th>
+                <td class="formValue">
+                    <input id="CRON" name="CRON" type="text" maxlength="50" class="form-control required" placeholder="请输入任务执行周期" />
+                    <a href="http://cron.qqe2.com/" style="margin-left:5px" target="_blank">cron可视化生成</a>
+                </td>
+            </tr>
+
+            <tr>
+                <th class="formTitle">任务URL</th>
+                <td class="formValue">
+                    <input id="REQUESTURL" name="REQUESTURL" type="text" maxlength="300" class="form-control" placeholder="" />
+                </td>
+            </tr>
+
+            <tr>
+                <th class="formTitle">TokenApi</th>
+                <td class="formValue">
+                    <input id="WEBAPI" name="WEBAPI" type="text" maxlength="300" class="form-control" placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">任务描述</th>
+                <td class="formValue">
+                    <textarea id="DESCRIPTION" name="DESCRIPTION" class="form-control" maxlength="200" style="height: 60px;"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

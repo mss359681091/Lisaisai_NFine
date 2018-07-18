@@ -156,6 +156,8 @@
     <Compile Include="Areas\ExampleManage\Controllers\SendMessagesController.cs" />
     <Compile Include="Areas\ExampleManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\ExampleManage\ExampleManageAreaRegistration.cs" />
+    <Compile Include="Areas\QuartzManage\Controllers\JobController.cs" />
+    <Compile Include="Areas\QuartzManage\QuartzManageAreaRegistration.cs" />
     <Compile Include="Areas\SystemManage\Controllers\AreaController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DutyController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\ItemsDataController.cs" />
@@ -1241,7 +1243,9 @@
   <ItemGroup>
     <Content Include="Areas\SystemSecurity\Views\ServerMonitoring\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\QuartzManage\Models\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Default.cshtml" />
   </ItemGroup>
@@ -1306,6 +1310,9 @@
     <Content Include="Content\js\simditor\bower.json" />
     <Content Include="packages.config" />
     <Content Include="Areas\SystemManage\Views\User\HasUsers.cshtml" />
+    <Content Include="Areas\QuartzManage\Views\web.config" />
+    <Content Include="Areas\QuartzManage\Views\Job\Index.cshtml" />
+    <Content Include="Areas\QuartzManage\Views\Job\Form.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Home\Avatar.cshtml" />

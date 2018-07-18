@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFine.Data", "NFine.Data\NF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFine.Mapping", "NFine.Mapping\NFine.Mapping.csproj", "{4E642CBE-F6C5-4CB9-9474-6B349652FE77}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quartz 定时作业", "Quartz 定时作业", "{AF748746-0180-49D7-A7DD-4E4922CC1D46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quartz.NetSchedulerManager", "Quartz.NetSchedulerManager\Quartz.NetSchedulerManager.csproj", "{90C17374-C164-4E72-BCA3-D84F84345100}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,10 @@ Global
 		{4E642CBE-F6C5-4CB9-9474-6B349652FE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E642CBE-F6C5-4CB9-9474-6B349652FE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E642CBE-F6C5-4CB9-9474-6B349652FE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90C17374-C164-4E72-BCA3-D84F84345100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C17374-C164-4E72-BCA3-D84F84345100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C17374-C164-4E72-BCA3-D84F84345100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C17374-C164-4E72-BCA3-D84F84345100}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +77,6 @@ Global
 		{875233BF-EA15-49E0-9A9C-77884A897FF6} = {F2C0CC86-CD58-4803-B43A-10FA559A355B}
 		{F71003E8-A836-48F4-9DF6-DF9095CEBD18} = {DE2A9A88-E15C-4E3D-AB28-B97879149854}
 		{4E642CBE-F6C5-4CB9-9474-6B349652FE77} = {F2C0CC86-CD58-4803-B43A-10FA559A355B}
+		{90C17374-C164-4E72-BCA3-D84F84345100} = {AF748746-0180-49D7-A7DD-4E4922CC1D46}
 	EndGlobalSection
 EndGlobal

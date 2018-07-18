@@ -45,6 +45,7 @@
     <Compile Include="01 Infrastructure\IEntity.cs" />
     <Compile Include="01 Infrastructure\IModificationAudited.cs" />
     <Compile Include="02 ViewModel\SystemManage\UserDto.cs" />
+    <Compile Include="03 Entity\QuartzManage\CustomerJobInfoEntity.cs" />
     <Compile Include="03 Entity\SystemManage\AreaEntity.cs" />
     <Compile Include="03 Entity\SystemManage\ModuleButtonEntity.cs" />
     <Compile Include="03 Entity\SystemManage\ModuleEntity.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="03 Entity\SystemSecurity\SysBackupServerEntity.cs" />
     <Compile Include="02 ViewModel\SystemSecurity\SysFileBackupDto.cs" />
     <Compile Include="03 Entity\SystemSecurity\SysFileBackupEntity.cs" />
+    <Compile Include="04 IRepository\QuartzManage\ICustomerJobInfoRepository.cs" />
     <Compile Include="04 IRepository\SystemManage\IAreaRepository.cs" />
     <Compile Include="04 IRepository\SystemManage\IItemsDetailRepository.cs" />
     <Compile Include="04 IRepository\SystemManage\IItemsRepository.cs" />

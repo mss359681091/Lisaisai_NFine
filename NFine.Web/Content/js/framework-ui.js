@@ -518,6 +518,9 @@ Date.prototype.format = function (fmt) {
 
 // 截取字符串 中英文混合
 function subString1(str, len) {
+    if (str == null || str == undefined) {
+        return "";
+    }
     var regexp = /[^\x00-\xff]/g;// 正在表达式匹配中文
     // 当字符串字节长度小于指定的字节长度时
     if (str.replace(regexp, "aa").length <= len) {
