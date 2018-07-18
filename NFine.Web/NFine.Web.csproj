@@ -194,10 +194,15 @@
     <Compile Include="Infrastructure\SessionEnabledControllerHandler.cs" />
     <Compile Include="Infrastructure\SessionEnabledHttpControllerRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\Common\ApiEnum.cs" />
     <Compile Include="WebApi\Common\ApiException.cs" />
+    <Compile Include="WebApi\Common\ResultMsg.cs" />
     <Compile Include="WebApi\Common\SessionObject.cs" />
     <Compile Include="WebApi\Common\UserPrincipal.cs" />
     <Compile Include="WebApi\Common\Users.cs" />
+    <Compile Include="WebApi\Demo\RunExeController.cs" />
+    <Compile Include="WebApi\Filters\ApiSecurityFilter.cs" />
+    <Compile Include="WebApi\ServiceController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -1122,6 +1127,10 @@
     <ProjectReference Include="..\NFine.Mapping\NFine.Mapping.csproj">
       <Project>{4e642cbe-f6c5-4cb9-9474-6b349652fe77}</Project>
       <Name>NFine.Mapping</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quartz.Net_JobBase\Quartz.Net_JobBase.csproj">
+      <Project>{104C317E-3783-4206-8066-966333707406}</Project>
+      <Name>Quartz.Net_JobBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

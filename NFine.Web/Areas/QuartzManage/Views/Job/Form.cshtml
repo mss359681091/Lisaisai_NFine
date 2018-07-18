@@ -27,7 +27,7 @@
             url: "/QuartzManage/Job/SubmitForm?keyValue=" + keyValue,
             param: postData,
             success: function () {
-                $.currentWindow().$.IntervalLoad();
+                $.currentWindow().$("#btnSearch").click();
             }
         })
     }
@@ -43,34 +43,34 @@
     <div style="padding-top: 20px; margin-right: 20px;">
         <table class="form">
             <tr>
-                <th class="formTitle width120">任务名称</th>
+                <th class="formTitle">任务名称</th>
                 <td class="formValue">
-                    <input id="JOBNAME" name="JOBNAME" type="text" maxlength="50" class="form-control required" placeholder="请输入任务名称" />
+                    <input id="JobName" name="JobName" type="text" maxlength="50" class="form-control required" placeholder="请输入任务名称" />
                 </td>
             </tr>
             <tr>
                 <th class="formTitle">任务组</th>
                 <td class="formValue">
-                    <input id="JOBGROUPNAME" name="JOBGROUPNAME" type="text" maxlength="50" class="form-control" placeholder="" />
+                    <input id="JobGroupName" name="JobGroupName" type="text" maxlength="50" class="form-control" placeholder="" />
                 </td>
             </tr>
             <tr>
                 <th class="formTitle">触发器</th>
                 <td class="formValue">
-                    <input id="TRIGGERNAME" name="TRIGGERNAME" type="text" maxlength="50" class="form-control required" placeholder="请输入触发器名称" />
+                    <input id="TriggerName" name="TriggerName" type="text" maxlength="50" class="form-control required" placeholder="请输入触发器名称" />
                 </td>
             </tr>
             <tr>
                 <th class="formTitle">触发器组</th>
                 <td class="formValue">
-                    <input id="TRIGGERGROUPNAME" name="TRIGGERGROUPNAME" type="text" maxlength="50" class="form-control" placeholder="" />
+                    <input id="TriggerGroupName" name="TriggerGroupName" type="text" maxlength="50" class="form-control" placeholder="" />
                 </td>
             </tr>
 
             <tr>
                 <th class="formTitle">执行周期</th>
                 <td class="formValue">
-                    <input id="CRON" name="CRON" type="text" maxlength="50" class="form-control required" placeholder="请输入任务执行周期" />
+                    <input id="Cron" name="Cron" type="text" maxlength="50" class="form-control required" placeholder="请输入任务执行周期" />
                     <a href="http://cron.qqe2.com/" style="margin-left:5px" target="_blank">cron可视化生成</a>
                 </td>
             </tr>
@@ -78,20 +78,20 @@
             <tr>
                 <th class="formTitle">任务URL</th>
                 <td class="formValue">
-                    <input id="REQUESTURL" name="REQUESTURL" type="text" maxlength="300" class="form-control" placeholder="" />
+                    <input id="RequestUrl" name="RequestUrl" type="text" maxlength="300" class="form-control"  />
                 </td>
             </tr>
 
             <tr>
                 <th class="formTitle">TokenApi</th>
                 <td class="formValue">
-                    <input id="WEBAPI" name="WEBAPI" type="text" maxlength="300" class="form-control" placeholder="" />
+                    <input id="WebApi" name="WebApi" type="text" maxlength="300" class="form-control"/>
                 </td>
             </tr>
             <tr>
                 <th class="formTitle">任务描述</th>
                 <td class="formValue">
-                    <textarea id="DESCRIPTION" name="DESCRIPTION" class="form-control" maxlength="200" style="height: 60px;"></textarea>
+                    <textarea id="F_Description" name="F_Description" class="form-control" maxlength="200" style="height: 60px;"></textarea>
                 </td>
             </tr>
         </table>

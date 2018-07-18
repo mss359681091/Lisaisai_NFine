@@ -32,6 +32,11 @@ namespace NFine.Application.QuartzManage
                 string keyword = queryParam["keyword"].ToString();
                 expression = expression.And(t => t.JobName.Contains(keyword) || t.JobGroupName.Contains(keyword));
             }
+            if (!queryParam["triggerState"].IsEmpty())
+            {
+                string triggerState = queryParam["triggerState"].ToString().Trim();
+                expression = expression.And(t => t.TriggerState == triggerState);
+            }
             return service.FindList(expression, pagination);
         }
 
@@ -54,18 +59,19 @@ namespace NFine.Application.QuartzManage
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
-                CustomerJobInfoEntity old = GetForm(keyValue);
-                if (old.TriggerState == 0 && old.Cron != entity.Cron)
-                {
-                    job.ModifyJobCron(entity);//更改运行中CRON
-                }
+                //CustomerJobInfoEntity old = GetForm(keyValue);
+                //if (old.TriggerState == "0" && old.Cron != entity.Cron)
+                //{
+                //    job.ModifyJobCron(entity);//更改运行中CRON
+                //}
+                job.ModifyJobCron(entity);//更改运行中CRON
                 entity.Modify(keyValue);
                 service.Update(entity);
             }
             else
             {
                 entity.Create();
-                if (!string.IsNullOrEmpty(entity.RequestUrl) && string.IsNullOrEmpty(entity.WebApi))
+                if (!string.IsNullOrEmpty(entity.RequestUrl) && (string.IsNullOrEmpty(entity.WebApi)||entity.WebApi== "&nbsp;"))
                 {
                     if (!entity.RequestUrl.Contains("http"))
                     {
@@ -76,7 +82,7 @@ namespace NFine.Application.QuartzManage
                 }
                 entity.DLLName = "Quartz.Net_JobBase.dll";
                 entity.FullJobName = "Quartz.Net_JobBase.JobBase";
-                entity.TriggerState = -1;
+                entity.TriggerState = "-1";
                 service.Insert(entity);
             }
         }
@@ -113,7 +119,7 @@ namespace NFine.Application.QuartzManage
         {
             CustomerJobInfoEntity model = GetForm(keyValue);
             job.RunJob(model);//运行job
-            model.TriggerState = 0;//状态改为运行中
+            model.TriggerState = "0";//状态改为运行中
             UpdateForm(model);
         }
 
@@ -144,7 +150,7 @@ namespace NFine.Application.QuartzManage
         {
             CustomerJobInfoEntity model = GetForm(keyValue);
             model.Deleted = true;
-            model.TriggerState = 5;//状态改为删除
+            model.TriggerState = "5";//状态改为删除
             job.DeleteJob(model);//删除任务
             UpdateForm(model);
         }
@@ -204,7 +210,7 @@ namespace NFine.Application.QuartzManage
         private void PauseById(string keyValue)
         {
             CustomerJobInfoEntity model = GetForm(keyValue);
-            model.TriggerState = 1;//状态改为暂停
+            model.TriggerState = "1";//状态改为暂停
             job.PauseJob(model);//暂停job
             UpdateForm(model);
         }
@@ -235,7 +241,7 @@ namespace NFine.Application.QuartzManage
         private void ResumeById(string keyValue)
         {
             CustomerJobInfoEntity model = GetForm(keyValue);
-            model.TriggerState = 0;//状态改为运行
+            model.TriggerState = "0";//状态改为运行
             job.ResumeJob(model);//恢复job
             UpdateForm(model);
         }

@@ -13,18 +13,18 @@ namespace NFine.Web.Areas.QuartzManage.Controllers
     {
         private CustomerJobInfoApp custApp = new CustomerJobInfoApp();
 
-        [HttpGet]
+        [HttpPost]
         [HandlerAjaxOnly]
-        public ActionResult GetGridJson(Pagination pagination, string keyword)
+        public ActionResult GetGridJson(string category, string page, string keyword, string rows = "10")
         {
-            var data = new
-            {
-                rows = custApp.GetList(pagination, keyword),
-                total = pagination.total,
-                page = pagination.page,
-                records = pagination.records
-            };
-            return Content(data.ToJson());
+            string queryJson = "{ \"triggerState\":\"" + category + "\",\"keyword\":\"" + keyword + "\"}";
+            Pagination pagination = new Pagination();
+            pagination.page = Convert.ToInt32(page);//当前页
+            pagination.rows = Convert.ToInt32(rows);//每页显示条数
+            pagination.sord = "asc";
+            pagination.sidx = "F_CreatorTime desc";
+            var data = custApp.GetList(pagination, queryJson);
+            return Success(pagination.records.ToString(), data);
         }
         [HttpGet]
         [HandlerAjaxOnly]

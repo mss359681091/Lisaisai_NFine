@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quartz 定时作业", "Quar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quartz.NetSchedulerManager", "Quartz.NetSchedulerManager\Quartz.NetSchedulerManager.csproj", "{90C17374-C164-4E72-BCA3-D84F84345100}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quartz.Net_JobBase", "Quartz.Net_JobBase\Quartz.Net_JobBase.csproj", "{104C317E-3783-4206-8066-966333707406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quartz.Net_RemoteServer", "Quartz.Net_RemoteServer\Quartz.Net_RemoteServer.csproj", "{D40F88D6-30FB-4B6F-947F-79F94B4E0013}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,14 @@ Global
 		{90C17374-C164-4E72-BCA3-D84F84345100}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90C17374-C164-4E72-BCA3-D84F84345100}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90C17374-C164-4E72-BCA3-D84F84345100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{104C317E-3783-4206-8066-966333707406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{104C317E-3783-4206-8066-966333707406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{104C317E-3783-4206-8066-966333707406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{104C317E-3783-4206-8066-966333707406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40F88D6-30FB-4B6F-947F-79F94B4E0013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40F88D6-30FB-4B6F-947F-79F94B4E0013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40F88D6-30FB-4B6F-947F-79F94B4E0013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40F88D6-30FB-4B6F-947F-79F94B4E0013}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +90,7 @@ Global
 		{F71003E8-A836-48F4-9DF6-DF9095CEBD18} = {DE2A9A88-E15C-4E3D-AB28-B97879149854}
 		{4E642CBE-F6C5-4CB9-9474-6B349652FE77} = {F2C0CC86-CD58-4803-B43A-10FA559A355B}
 		{90C17374-C164-4E72-BCA3-D84F84345100} = {AF748746-0180-49D7-A7DD-4E4922CC1D46}
+		{104C317E-3783-4206-8066-966333707406} = {AF748746-0180-49D7-A7DD-4E4922CC1D46}
+		{D40F88D6-30FB-4B6F-947F-79F94B4E0013} = {AF748746-0180-49D7-A7DD-4E4922CC1D46}
 	EndGlobalSection
 EndGlobal

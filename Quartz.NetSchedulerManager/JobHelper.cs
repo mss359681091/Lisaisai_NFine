@@ -154,15 +154,15 @@ withMisfireHandlingInstructionFireAndProceed
                 x.JobGroupName,
                 x.TriggerName,
                 x.TriggerGroupName,
-                x.Description,
+                x.F_Description,
                 x.Cron,
                 JobStartTime = x.JobStartTime,
-                CreateTime = x.CreateTime,
+                CreateTime = x.F_CreatorTime,
                 x.Deleted,
                 Customer_TriggerState = x.TriggerState,
                 TriggerState = _changeType(_getTriggerState(x.TriggerName, x.TriggerGroupName))
             }).ToList();
-            allJobList = jobStatus == 5 || jobStatus == -1 ? allJobList.Where(x => x.Customer_TriggerState == jobStatus).ToList() : allJobList.Where(x => x.TriggerState == jobStatus).ToList();
+            allJobList = jobStatus == 5 || jobStatus == -1 ? allJobList.Where(x => x.Customer_TriggerState == jobStatus.ToString()).ToList() : allJobList.Where(x => x.TriggerState == jobStatus).ToList();
             return allJobList.Select(x => new
             {
                 x.F_Id,
@@ -170,7 +170,7 @@ withMisfireHandlingInstructionFireAndProceed
                 x.JobGroupName,
                 x.TriggerName,
                 x.TriggerGroupName,
-                x.Description,
+                x.F_Description,
                 x.Cron,
                 x.JobStartTime,
                 x.CreateTime
