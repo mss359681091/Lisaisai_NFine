@@ -49,6 +49,12 @@
                 }
             ]
         });
+        $("#btn_search").click(function () {
+            $("#gridList").jqGrid('setGridParam', {
+                url: "/SystemManage/ModuleButton/GetTreeGridJson",
+                postData: { moduleId: moduleId, keyword: $("#txt_keyword").val() },
+            }).trigger('reloadGrid');
+        });
     }
     function btn_add() {
         $.modalOpen({
@@ -125,9 +131,9 @@
             <tr>
                 <td>
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
+                        <input type="text" id="txt_keyword" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
                         <span class="input-group-btn">
-                            <button type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </td>

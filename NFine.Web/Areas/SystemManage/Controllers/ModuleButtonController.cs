@@ -35,9 +35,9 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetTreeGridJson(string moduleId)
+        public ActionResult GetTreeGridJson(string moduleId, string keyword)
         {
-            var data = moduleButtonApp.GetList(moduleId);
+            var data = moduleButtonApp.GetList(moduleId,keyword);
             var treeList = new List<TreeGridModel>();
             foreach (ModuleButtonEntity item in data)
             {
