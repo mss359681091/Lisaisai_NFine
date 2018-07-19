@@ -80,6 +80,8 @@ namespace NFine.Application.QuartzManage
                 entity.DLLName = "Quartz.Net_JobBase.dll";
                 entity.FullJobName = "Quartz.Net_JobBase.JobBase";
                 entity.TriggerState = "-1";
+                entity.JobGroupName = Common.GuId();//动态分配
+                entity.TriggerGroupName = Common.GuId();//动态分配
                 service.Insert(entity);
             }
         }
