@@ -34,7 +34,7 @@ namespace NFine.Web.WebApi.Demo
         [Route("dotasktoken")]
         [ApiSecurityFilter]
         [HttpGet]
-        public string DoTaskByToken(string id="")
+        public string DoTaskByToken()
         {
             try
             {

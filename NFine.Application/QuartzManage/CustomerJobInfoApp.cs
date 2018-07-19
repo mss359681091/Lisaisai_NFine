@@ -15,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Quartz.NetSchedulerManager;
+using System.Text;
+using System.Data.SqlClient;
 
 namespace NFine.Application.QuartzManage
 {
@@ -30,7 +32,7 @@ namespace NFine.Application.QuartzManage
             if (!queryParam["keyword"].IsEmpty())
             {
                 string keyword = queryParam["keyword"].ToString();
-                expression = expression.And(t => t.JobName.Contains(keyword) || t.JobGroupName.Contains(keyword));
+                expression = expression.And(t => t.JobName.Contains(keyword) || t.JobGroupName.Contains(keyword) || t.TriggerName.Contains(keyword));
             }
             if (!queryParam["triggerState"].IsEmpty())
             {
@@ -59,11 +61,6 @@ namespace NFine.Application.QuartzManage
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
-                //CustomerJobInfoEntity old = GetForm(keyValue);
-                //if (old.TriggerState == "0" && old.Cron != entity.Cron)
-                //{
-                //    job.ModifyJobCron(entity);//更改运行中CRON
-                //}
                 job.ModifyJobCron(entity);//更改运行中CRON
                 entity.Modify(keyValue);
                 service.Update(entity);
@@ -71,7 +68,7 @@ namespace NFine.Application.QuartzManage
             else
             {
                 entity.Create();
-                if (!string.IsNullOrEmpty(entity.RequestUrl) && (string.IsNullOrEmpty(entity.WebApi)||entity.WebApi== "&nbsp;"))
+                if (!string.IsNullOrEmpty(entity.RequestUrl) && (string.IsNullOrEmpty(entity.WebApi) || entity.WebApi == "&nbsp;"))
                 {
                     if (!entity.RequestUrl.Contains("http"))
                     {
@@ -244,6 +241,33 @@ namespace NFine.Application.QuartzManage
             model.TriggerState = "0";//状态改为运行
             job.ResumeJob(model);//恢复job
             UpdateForm(model);
+        }
+
+        /// <summary>
+        /// 检查名称是否已存在
+        /// </summary>
+        /// <param name="jobName"></param>
+        /// <returns></returns>
+        public bool CheckFiled(string jobName)
+        {
+            bool returnValue = false;
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append(@"SELECT  d.F_Id
+                            FROM    Customer_JobInfo d
+                            WHERE   1 = 1
+                                    AND  d.JobName = @JobName
+                                    AND (d.F_EnabledMark = 1 or d.F_EnabledMark is null)
+                                    AND (d.F_DeleteMark = 0 or d.F_DeleteMark is null)");
+            SqlParameter[] parameter =
+            {
+                 new SqlParameter("@JobName",jobName)
+            };
+            var result = SqlHelper.ExecuteScalarText(strSql.ToString(), parameter);
+            if (result != null)
+            {
+                returnValue = true;
+            }
+            return returnValue;
         }
     }
 }

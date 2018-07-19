@@ -5,7 +5,7 @@
 }
 <style>
     .btn-outline {
-        margin-left: 5px;
+        margin-left: 10px;
     }
 </style>
 <div class="wrapper wrapper-content">
@@ -20,7 +20,7 @@
                         <ul class="folder-list m-b-md" style="padding: 0">
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-certificate "></i> 全部<span class="label label-default pull-right allcount">0</span>
+                                    <i class="fa fa-certificate "></i> 全部项目<span class="label label-primary pull-right allcount">0</span>
                                 </a>
                             </li>
 
@@ -91,27 +91,29 @@
                     <span id="statename">任务列表</span> (<span class="allcount">0</span>)
                 </h2>
                 <div class="mail-tools tooltip-demo m-t-md">
-                    <div class="btn-group pull-right">
-                        <button class="btn btn-white btn-sm">
-                            <i class="fa fa-arrow-left"></i>
-                        </button>
-                        <button class="btn btn-white btn-sm">
-                            <i class="fa fa-arrow-right"></i>
-                        </button>
-                    </div>
-                    <button class="btn btn-white btn-sm" data-placement="left" title="刷新列表"><i class="fa fa-refresh"></i> 刷新</button>
-
-                    <button id="btnRun" class="btn btn-primary btn-sm" data-placement="top" title="批量执行">
+                    @*<div class="btn-group pull-right">
+                            <button class="btn btn-white btn-sm">
+                                <i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button class="btn btn-white btn-sm">
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>*@
+                    <button class="btn btn-white btn-sm" style="margin-right:10px" onclick="$.job.fnjoblist(true);" data-placement="left" title="刷新列表"><i class="fa fa-refresh"></i> 刷新</button>
+                    <button id="btnRun" style="display:none" class="btn btn-success btn-sm" data-placement="top" title="批量执行">
                         <i class="fa fa-play"></i> 批量执行
                     </button>
-                    <button id="btnPause" class="btn btn-warning btn-sm" data-placement="top" title="批量暂停">
+                    <button id="btnPause" style="display:none" class="btn btn-warning btn-sm" data-placement="top" title="批量暂停">
                         <i class="fa fa-pause"></i> 批量暂停
                     </button>
-                    <button id="btnResume" class="btn btn-info btn-sm" data-placement="top" title="批量恢复">
+                    <button id="btnResume" style="display:none" class="btn btn-info btn-sm" data-placement="top" title="批量恢复">
                         <i class="fa fa-rotate-left"></i> 批量恢复
                     </button>
-                    <button id="btnDel" class="btn btn-danger btn-sm" data-placement="top" title="批量删除">
+                    <button id="btnDel" style="display:none" class="btn btn-danger btn-sm" data-placement="top" title="批量删除">
                         <i class="fa fa-trash"></i> 批量删除
+                    </button>
+                    <button id="btnPhyDel" style="display:none" class="btn btn-danger btn-sm" data-placement="top" title="彻底删除">
+                        <i class="fa fa-trash"></i> 彻底删除
                     </button>
                 </div>
             </div>
@@ -196,6 +198,33 @@
                     $(this).addClass("active");
                     $("#statename").text($(this).text());
                     $.job.fnjoblist(true);//重新加载列表
+                    var state = $("#ul_category a.active").data("state");
+                    $(".mail-tools .btn:gt(0)").hide();
+                    switch (state) {
+                        case -1:
+                            $("#btnRun,#btnDel").show();
+                            break;
+                        case 0:
+                            $("#btnPause").show();
+                            break;
+                        case 1:
+                            $("#btnResume").show();
+                            break;
+                        case 2:
+                            $("#btnDel").show();
+                            break;
+                        case 3:
+                            $("#btnDel").show();
+                            break;
+                        case 4:
+                            $("#btnDel").show();
+                            break;
+                        case 5:
+                            $("#btnPhyDel").show();
+                            break;
+                        default:
+                            break;
+                    }
                 });
 
                 $('#chkall').on('ifChanged', function (event) {
@@ -209,10 +238,12 @@
                 $('#joblist').on("click", ".btnRun", function () {
                     var id = $(this).parents("tr").data("id");
                     $.job.cert_run(id);
+
                 });
                 $('#joblist').on("click", ".btnDetail", function () {
                     var id = $(this).parents("tr").data("id");
                     $.job.btn_edit(id);
+
                 });
                 $('#joblist').on("click", ".btnResume", function () {
                     var id = $(this).parents("tr").data("id");
@@ -246,6 +277,10 @@
                 $("#btnDel").bind("click", function () {
                     var ids = $.job.fngetids();
                     $.job.btn_delete(ids);
+                });
+                $("#btnPhyDel").bind("click", function () {
+                    var ids = $.job.fngetids();
+                    $.job.cert_physicallydel(ids);
                 });
             },
             fnjoblist: function (isEmpty) {
@@ -286,14 +321,12 @@
                         $(".allcount").text(result.message);//总数
 
                         $.each(result.data, function (idx, obj) {
-
-
                             //var category = top.clients.dataItems.Category[obj.F_Category] == undefined ? "" : top.clients.dataItems.Category[obj.F_Category];
                             var enable = obj.F_EnabledMark == 1 ? '<i class=\"fa fa-toggle-on\"></i>' : '<i class=\"fa fa-toggle-off\"></i>';
                             var curindex = (((parseInt(currpage) - 1) * crows) + (parseInt(idx) + 1));
                             var statename = $.job.fnGetState(obj.TriggerState);
                             var buttonhtm = $.job.fnGetButton(obj.TriggerState);
-
+                            var des = obj.F_Description == null ? "" : obj.F_Description;
                             strhtm += '<tr data-id="' + obj.F_Id + '">';
                             strhtm += '<td><input type="checkbox" class="i-checks"></td>';
                             strhtm += '<td>' + curindex + '</td>';
@@ -302,7 +335,7 @@
                             strhtm += '<td>' + obj.Cron + '</td>';
                             strhtm += '<td>' + statename + '</td>';
                             strhtm += '<td>' + obj.F_CreatorTime + '</td>';
-                            strhtm += '<td>' + obj.F_Description + '</td>';
+                            strhtm += '<td>' + des + '</td>';
                             strhtm += '<td>';
                             strhtm += buttonhtm;
                             strhtm += '</td>';
@@ -501,7 +534,7 @@
 
                 switch (str) {
                     case "-1":
-                        buttonhtm += '<button type="button"  class="btn btn-info btn-xs btn-outline btnRun">运行</button>';
+                        buttonhtm += '<button type="button"  class="btn btn-success  btn-xs btn-outline btnRun">执行</button>';
                         buttonhtm += '<button type="button"  class="btn btn-danger btn-xs btn-outline btnDel">删除</button>';
                         buttonhtm += '<button type="button"  class="btn btn-info btn-xs btn-outline btnDetail">详情</button>';
                         break;
@@ -510,7 +543,7 @@
                         buttonhtm += '<button type="button"  class="btn btn-info btn-xs btn-outline btnDetail">详情</button>';
                         break;
                     case "1":
-                        buttonhtm += '<button type="button"  class="btn btn-primary btn-xs btn-outline btnResume">恢复</button>';
+                        buttonhtm += '<button type="button"  class="btn btn-info btn-xs btn-outline btnResume">恢复</button>';
                         buttonhtm += '<button type="button"  class="btn btn-danger btn-xs btn-outline btnDel">删除</button>';
                         buttonhtm += '<button type="button"  class="btn btn-info btn-xs btn-outline btnDetail">详情</button>';
                         break;

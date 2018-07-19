@@ -38,6 +38,10 @@ namespace NFine.Web.Areas.QuartzManage.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SubmitForm(CustomerJobInfoEntity jobInfoEntity, string keyValue)
         {
+            if (custApp.CheckFiled(jobInfoEntity.JobName))
+            {
+                return Error("名称已存在。");
+            }
             custApp.SubmitForm(jobInfoEntity, keyValue);
             return Success("操作成功。");
         }

@@ -15,7 +15,7 @@ namespace Quartz.Net_JobBase
             {
                 try
                 {
-                    CallUrl(context);//Token约定方式调用WebApi服务
+                    CallWebApi(context);//Token约定方式调用WebApi服务
                 }
                 catch (Exception ex)
                 {
