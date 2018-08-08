@@ -1,4 +1,5 @@
-﻿using Server.Common;
+﻿using NFine.Web.WebApi.Common;
+using System;
 
 namespace NFine.Web.WebApi
 {

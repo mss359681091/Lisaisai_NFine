@@ -292,13 +292,13 @@ namespace NFine.Code
         /// </summary>
         /// <param name="ip_arr"></param>
         /// <returns></returns>
-        public static string getCurIp(string ip_arr)
+        public static string getCurIp(string ip_arr,int port)
         {
             List<string> ip_lst = StringHelper.GetStrArray(ip_arr, ',', true);
             for (int i = 0; i < ip_lst.Count; i++)
             {
                 //bool b = IpHelper.TestNetConnectity(ip_lst[i]);//ping ip
-                bool b = IpHelper.TestConnection(ip_lst[i], 555, 500);
+                bool b = IpHelper.TestConnection(ip_lst[i], port, 500);
                 if (b)
                 {
                     return ip_lst[i];

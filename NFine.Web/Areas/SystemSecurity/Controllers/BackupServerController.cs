@@ -123,7 +123,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    string str = ex.Message;
                 }
 
             }

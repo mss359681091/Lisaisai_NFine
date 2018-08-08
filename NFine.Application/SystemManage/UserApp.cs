@@ -94,7 +94,7 @@ namespace NFine.Application.SystemManage
                         int LogOnCount = (userLogOnEntity.F_LogOnCount).ToInt() + 1;
                         if (userLogOnEntity.F_LastVisitTime != null)
                         {
-                            userLogOnEntity.F_PreviousVisitTime = userLogOnEntity.F_LastVisitTime.ToDate();
+                            userLogOnEntity.F_PreviousVisitTime = userLogOnEntity.F_LastVisitTime;
                         }
                         userLogOnEntity.F_LastVisitTime = lastVisitTime;
                         userLogOnEntity.F_LogOnCount = LogOnCount;

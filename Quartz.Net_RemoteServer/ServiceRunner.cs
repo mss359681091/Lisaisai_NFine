@@ -1,20 +1,23 @@
 ﻿using Quartz.Impl;
 using Quartz.Impl.Matchers;
 using System.Collections.Specialized;
+using System.Configuration;
 using Topshelf;
 
 namespace Quartz.Net_RemoteServer
 {
-    public sealed class ServiceRunner : ServiceControl, ServiceSuspend
+    public class ServiceRunner : ServiceControl, ServiceSuspend
     {
-        private readonly IScheduler scheduler;
+        private ISchedulerFactory schedulerFactory;
+        private IScheduler scheduler;
+        private NameValueCollection properties = new NameValueCollection();
 
         public ServiceRunner()
         {
-            var schedulerFactory = new StdSchedulerFactory(GetProperties());
-            scheduler = schedulerFactory.GetScheduler();
-            scheduler.ListenerManager.AddJobListener(new MyJobListener(), GroupMatcher<JobKey>.AnyGroup());
-            scheduler.Start();
+            QuartzConfig();
+            CreateSchedulerFactory();
+            GetScheduler();
+            AddJobListener();
         }
 
         private NameValueCollection GetProperties()
@@ -23,49 +26,116 @@ namespace Quartz.Net_RemoteServer
             properties["quartz.scheduler.instanceName"] = "RemoteServer";
             properties["quartz.threadPool.type"] = "Quartz.Simpl.SimpleThreadPool, Quartz";
             properties["quartz.threadPool.threadCount"] = "5";
+            properties["lazy-init"] = "false";
             properties["quartz.threadPool.threadPriority"] = "Normal";
             properties["quartz.scheduler.exporter.type"] = "Quartz.Simpl.RemotingSchedulerExporter, Quartz";
-            properties["quartz.scheduler.exporter.port"] = "555";//端口号
-            properties["quartz.scheduler.exporter.bindName"] = "QuartzScheduler";//名称
-            properties["quartz.scheduler.exporter.channelType"] = "tcp";//通道名
+            properties["quartz.scheduler.exporter.port"] = ConfigurationManager.AppSettings["port"];
+            properties["quartz.scheduler.exporter.bindName"] = ConfigurationManager.AppSettings["bindName"];//名称
+            //通道类型
+            properties["quartz.scheduler.exporter.channelType"] = ConfigurationManager.AppSettings["channelType"];
             properties["quartz.scheduler.exporter.channelName"] = "httpQuartz";
-            properties["quartz.scheduler.exporter.rejectRemoteRequests"] = "true";
-            properties["quartz.jobStore.clustered"] = "true";//集群配置
-            properties["quartz.scheduler.instanceId"] = "AUTO";
-            string connString = System.Configuration.ConfigurationManager.AppSettings["connString"];
-            //下面为指定quartz持久化数据库的配置
-            //string connString = "User ID=CQMS;Password=CQMS;Data Source=(DESCRIPTION = (ADDRESS_LIST= (ADDRESS = (PROTOCOL = TCP)(HOST = 124.205.46.149)(PORT = 1521))) (CONNECT_DATA = (SERVICE_NAME = orcl)))";
-            properties["quartz.jobStore.type"] = "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz"; //存储类型
-            properties["quartz.jobStore.tablePrefix"] = "QRTZ_"; //表明前缀
+            properties["quartz.scheduler.exporter.rejectRemoteRequests"] = "false";
+            //集群配置
+            properties["quartz.jobStore.clustered"] = "true";
+            //存储类型
+            properties["quartz.jobStore.type"] = "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz";
+            //表名前缀
+            properties["quartz.jobStore.tablePrefix"] = "qrtz_";
+            //驱动类型
             properties["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.SqlServerDelegate, Quartz";
-            properties["quartz.jobStore.dataSource"] = "myDS";//数据源名称
-            properties["quartz.dataSource.myDS.connectionString"] = connString; //连接字符串
-           //properties["quartz.dataSource.myDS.provider"] = "OracleODPManaged-1123-40";//oracle版本
-            properties["quartz.dataSource.myDS.provider"] = "SqlServer-20";//sql版本
+            //数据源名称
+            properties["quartz.jobStore.dataSource"] = "myDS";
+            //连接字符串
+            properties["quartz.dataSource.myDS.connectionString"] = ConfigurationManager.AppSettings["connectionString"];
+            //版本
+            properties["quartz.dataSource.myDS.provider"] = "SqlServer-20";
+            properties["quartz.scheduler.instanceId"] = "AUTO";
             return properties;
+        }
+
+        protected void QuartzConfig()
+        {
+            properties["quartz.scheduler.instanceName"] = "RemoteServer";
+            properties["quartz.threadPool.type"] = "Quartz.Simpl.SimpleThreadPool, Quartz";
+            properties["quartz.threadPool.threadCount"] = "5";
+            properties["lazy-init"] = "false";
+            properties["quartz.threadPool.threadPriority"] = "Normal";
+            properties["quartz.scheduler.exporter.type"] = "Quartz.Simpl.RemotingSchedulerExporter, Quartz";
+            properties["quartz.scheduler.exporter.port"] = ConfigurationManager.AppSettings["port"];
+            properties["quartz.scheduler.exporter.bindName"] = ConfigurationManager.AppSettings["bindName"];//名称
+            //通道类型
+            properties["quartz.scheduler.exporter.channelType"] = ConfigurationManager.AppSettings["channelType"];
+            properties["quartz.scheduler.exporter.channelName"] = "httpQuartz";
+            properties["quartz.scheduler.exporter.rejectRemoteRequests"] = "false";
+            //集群配置
+            properties["quartz.jobStore.clustered"] = "true";
+            //存储类型
+            properties["quartz.jobStore.type"] = "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz";
+            //表名前缀
+            properties["quartz.jobStore.tablePrefix"] = "qrtz_";
+            //驱动类型
+            properties["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.SqlServerDelegate, Quartz";
+            //数据源名称
+            properties["quartz.jobStore.dataSource"] = "myDS";
+            //连接字符串
+            properties["quartz.dataSource.myDS.connectionString"] = ConfigurationManager.AppSettings["connectionString"];
+            //版本
+            properties["quartz.dataSource.myDS.provider"] = "SqlServer-20";
+            properties["quartz.scheduler.instanceId"] = "AUTO";
+        }
+
+        protected void CreateSchedulerFactory()
+        {
+            schedulerFactory = new StdSchedulerFactory(properties);
+        }
+        protected void GetScheduler()
+        {
+            scheduler = schedulerFactory.GetScheduler();
+        }
+        protected void AddJobListener()
+        {
+            //scheduler.ListenerManager.AddTriggerListener(new MyTriggerListener(), GroupMatcher<TriggerKey>.AnyGroup());
+            scheduler.ListenerManager.AddJobListener(new MyJobListener(), GroupMatcher<JobKey>.AnyGroup());
+        }
+        public virtual void Start()
+        {
+            scheduler.Start();
+
+        }
+        public virtual void Stop()
+        {
+            scheduler.Shutdown(true);
+
+        }
+        public virtual void Pause()
+        {
+            scheduler.PauseAll();
+        }
+        public virtual void Resume()
+        {
+            scheduler.ResumeAll();
         }
 
         public bool Start(HostControl hostControl)
         {
-            scheduler.Start();
+            Start();
             return true;
         }
-
         public bool Stop(HostControl hostControl)
         {
-            scheduler.Shutdown(false);
+            Stop();
             return true;
         }
-
-        public bool Continue(HostControl hostControl)
-        {
-            scheduler.ResumeAll();
-            return true;
-        }
-
         public bool Pause(HostControl hostControl)
         {
-            scheduler.PauseAll();
+
+            Pause();
+            return true;
+        }
+        public bool Continue(HostControl hostControl)
+        {
+
+            Resume();
             return true;
         }
 

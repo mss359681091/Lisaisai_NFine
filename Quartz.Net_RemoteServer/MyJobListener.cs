@@ -59,13 +59,13 @@ namespace Quartz.Net_RemoteServer
                 string strQuery = string.Empty;
                 if (jobException == null)
                 {
-                    strQuery = @" UPDATE Customer_JobInfo SET TriggerState =" + triggerState + " WHERE 1=1 AND ID='" + jobId + "' ";
+                    strQuery = @" UPDATE CUSTOMER_JOBINFO SET TRIGGERSTATE =" + triggerState + " WHERE 1=1 AND F_Id='" + jobId + "' ";
                     Console.WriteLine("任务编号{0}；执行完成时间：{1},状态：{2}", context.JobDetail.JobDataMap["jobId"], DateTime.Now, strTriggerState);
-                    _log.Info("任务编号： " + context.JobDetail.JobDataMap["jobId"] + " 执行时间： " + DateTime.Now+"执行状态："+ strTriggerState);
+                    _log.Info("任务编号： " + context.JobDetail.JobDataMap["jobId"] + " 执行时间： " + DateTime.Now + "执行状态：" + strTriggerState);
                 }
                 else
                 {
-                    strQuery = @" UPDATE Customer_JobInfo SET TriggerState =" + triggerState + ",Exception= '" + jobException.Message + "' WHERE 1=1 AND ID='" + jobId + "' ";
+                    strQuery = @" UPDATE CUSTOMER_JOBINFO SET TRIGGERSTATE =" + triggerState + ",EXCEPTION= '" + jobException.Message + "' WHERE 1=1 AND F_Id='" + jobId + "' ";
                     Console.WriteLine("jobId{0}执行失败：{1}", context.JobDetail.JobDataMap["jobId"], jobException.Message);
                     _log.Error("任务编号： " + context.JobDetail.JobDataMap["jobId"] + " 执行时间： " + DateTime.Now + " 错误日志：" + jobException.Message);
                 }
@@ -77,7 +77,7 @@ namespace Quartz.Net_RemoteServer
             }
             catch (Exception ex)
             {
-                string strQuery = @" UPDATE Customer_JobInfo SET TriggerState =" + triggerState + ",Exception= '" + jobException.Message + "' WHERE 1=1 AND ID='" + jobId + "' ";
+                string strQuery = @" UPDATE CUSTOMER_JOBINFO SET TRIGGERSTATE =" + triggerState + ",EXCEPTION= '" + jobException.Message + "' WHERE 1=1 AND F_Id='" + jobId + "' ";
                 SqlHelper.ExecteNonQuery(CommandType.Text, strQuery);//保存状态
                 Console.WriteLine("异常{0}", ex.Message);
                 _log.Error("任务编号： " + context.JobDetail.JobDataMap["jobId"] + " 执行时间： " + DateTime.Now + " 错误日志：" + ex.Message);

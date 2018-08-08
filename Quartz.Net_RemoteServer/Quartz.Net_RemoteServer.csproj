@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandEnum.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="MyJobListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,12 +102,19 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="InstallWindowsServer\Install.bat" />
+    <None Include="InstallWindowsServer\start.bat" />
+    <None Include="InstallWindowsServer\uninstall.bat" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NFine.Code\NFine.Code.csproj">
+      <Project>{DB19CE03-C307-43FE-A209-08AA4AE10E21}</Project>
+      <Name>NFine.Code</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Quartz.Net_JobBase\Quartz.Net_JobBase.csproj">
       <Project>{f04e175d-90ab-4916-b21f-a6a221e7027e}</Project>
       <Name>Quartz.Net_JobBase</Name>

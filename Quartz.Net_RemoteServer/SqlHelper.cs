@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Collections;
-using System.Configuration;
 
 namespace Quartz.Net_RemoteServer
 {
@@ -18,7 +17,7 @@ namespace Quartz.Net_RemoteServer
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
-        public static readonly string connectionString = ConfigurationManager.AppSettings["connString"];
+        public static readonly string connectionString = ConfigurationManager.AppSettings["connectionString"];
 
         // Hashtable to store cached parameters
         private static Hashtable parmCache = Hashtable.Synchronized(new Hashtable());

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Server.Common;
-using Server.Models;
+using NFine.Web.WebApi.Common;
 using System;
 using System.Net.Http;
 using System.Web;

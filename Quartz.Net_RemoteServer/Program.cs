@@ -13,9 +13,9 @@ namespace Quartz.Net_RemoteServer
             {
                 x.UseLog4Net();
                 x.Service<ServiceRunner>();
-                x.SetDescription("Quartz.Net_RemoteServer服务描述");
-                x.SetDisplayName("Quartz.Net_RemoteServer服务显示名称");
-                x.SetServiceName("Quartz.Net_RemoteServer服务名称");
+                x.SetDescription(Configuration.Description);
+                x.SetDisplayName(Configuration.DisplayName);
+                x.SetServiceName(Configuration.ServiceName);
                 x.EnablePauseAndContinue();
             });
         }

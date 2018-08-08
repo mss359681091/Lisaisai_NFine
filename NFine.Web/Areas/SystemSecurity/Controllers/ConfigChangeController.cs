@@ -156,7 +156,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
                 {
                     keyV = int.Parse(str);
                     int i = listNum.Count;
-                    for (; i > 0; )
+                    for (; i > 0;)
                     {
                         i--;
                         if (keyV < listNum[i])
@@ -165,7 +165,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
                         }
                     }
                     listNum.Insert(i, keyV);
-                }                
+                }
                 for (int i = 0; i < listNum.Count; i++)
                 {
                     keyV = listNum[i];
@@ -183,19 +183,6 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
             {
                 return Success("删除失败");
             }
-            return Success("请选择删除项");
-            //if (!string.IsNullOrEmpty(keyValue))
-            //{
-            //    List<string> lstid = StringHelper.GetStrArray(keyValue, ',', false);
-            //    for (int i = 0; i < lstid.Count; i++)
-            //    {
-            //        //SysConfigChangeEntity configChangeEntity = configChangeApp.GetForm(lstid[i]);
-            //        //configChangeApp.DeleteForm(lstid[i]);
-            //        AccessAppSettings(configChangeEntity.F_Key, configChangeEntity.F_Value, 2);
-            //    }
-            //    return Success("删除成功");
-            //}
-            //return Success("请选择删除项");
         }
     }
 }

@@ -71,6 +71,10 @@
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>..\NFine.Code\bin\Debug\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz.Net_JobBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Quartz.Net_JobBase.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -196,8 +200,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApi\Common\ApiEnum.cs" />
     <Compile Include="WebApi\Common\ApiException.cs" />
+    <Compile Include="WebApi\Common\EnumExtension.cs" />
+    <Compile Include="WebApi\Common\HttpResponseExtension.cs" />
     <Compile Include="WebApi\Common\ResultMsg.cs" />
     <Compile Include="WebApi\Common\SessionObject.cs" />
+    <Compile Include="WebApi\Common\SignExtension.cs" />
+    <Compile Include="WebApi\Common\Token.cs" />
     <Compile Include="WebApi\Common\UserPrincipal.cs" />
     <Compile Include="WebApi\Common\Users.cs" />
     <Compile Include="WebApi\Demo\RunExeController.cs" />
@@ -220,17 +228,12 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\weathericons-regular-webfont.svg" />
     <Content Include="Content\img\404_r1_c2.png" />
-    <Content Include="Content\img\AI1.jpg" />
     <Content Include="Content\img\ajax-loader.gif" />
-    <Content Include="Content\img\alipay.jpg" />
-    <Content Include="Content\img\alipayimg.png" />
     <Content Include="Content\img\ArchivesHeader.jpg" />
     <Content Include="Content\img\button_pm_close.png" />
-    <Content Include="Content\img\CDR1.jpg" />
     <Content Include="Content\img\cy-reward-title-bg.jpg" />
     <Content Include="Content\img\loading.gif" />
     <Content Include="Content\img\Login\ku.png" />
-    <Content Include="Content\img\psd1.jpg" />
     <Content Include="Content\img\radio1.jpg" />
     <Content Include="Content\img\radio2.jpg" />
     <Content Include="Content\img\samples\girl.jpg" />
@@ -255,10 +258,6 @@
     <Content Include="Content\img\samples\portrait19.jpg" />
     <Content Include="Content\img\samples\portrait20.jpg" />
     <Content Include="Content\img\samples\scarlet-159.png" />
-    <Content Include="Content\img\signet.gif" />
-    <Content Include="Content\img\wechat.jpg" />
-    <Content Include="Content\img\weipayimg.png" />
-    <Content Include="Content\img\weixin_nfine.png" />
     <Content Include="Content\js\baguetteBox\css\baguetteBox.min.css" />
     <Content Include="Content\js\baguetteBox\css\fluid-gallery.css" />
     <Content Include="Content\js\baguetteBox\css\gallery-clean.css" />
@@ -1104,7 +1103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configs\log4net.config" />
-    <Content Include="Configs\system.config" />
+    <Content Include="Configs\system.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configs\database.config">
@@ -1127,10 +1128,6 @@
     <ProjectReference Include="..\NFine.Mapping\NFine.Mapping.csproj">
       <Project>{4e642cbe-f6c5-4cb9-9474-6b349652fe77}</Project>
       <Name>NFine.Mapping</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Quartz.Net_JobBase\Quartz.Net_JobBase.csproj">
-      <Project>{104C317E-3783-4206-8066-966333707406}</Project>
-      <Name>Quartz.Net_JobBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1336,6 +1333,24 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
