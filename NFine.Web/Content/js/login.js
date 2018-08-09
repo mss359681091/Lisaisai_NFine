@@ -112,7 +112,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.state == "success") {
-                        window.location.href = "/Home/Index";
+                        window.location.href = "/ProjectData/ProjectInfo/Index";
                     }
                     else {
                         lrPage.logining(false);

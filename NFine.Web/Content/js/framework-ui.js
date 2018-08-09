@@ -1,6 +1,10 @@
 ﻿$(function () {
     document.body.className = localStorage.getItem('config-skin');
     //$("[data-toggle='tooltip']").tooltip();
+    if (top.$.nfinetab != undefined)
+    {
+        $('.menuItem').on('click', top.$.nfinetab.addTab);
+    }
 })
 $.reload = function () {
     location.reload();

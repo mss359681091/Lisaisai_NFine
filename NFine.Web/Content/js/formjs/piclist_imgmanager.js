@@ -2,8 +2,8 @@ var currpage = 1;//默认当前第一页
 (function ($) {
     $.piclist_imgmanager = {
         init: function () {
-            $.piclist_imgmanager.loadcategory();
-            $.piclist_imgmanager.fnimglist(true);
+            //$.piclist_imgmanager.loadcategory();
+            //$.piclist_imgmanager.fnimglist(true);
             $.piclist_imgmanager.fnagain();
             $.piclist_imgmanager.bind();
 
@@ -35,13 +35,14 @@ var currpage = 1;//默认当前第一页
                 $.piclist_imgmanager.fnimglist(true);
             });
             $("#NF-add").on("click", function () {
-                $.piclist_imgmanager.btn_add();
+                //$.piclist_imgmanager.btn_add();
             });
             $("#NF-edit").on("click", function () {
                 $.piclist_imgmanager.btn_edit();
             });
             $('.mail-box').slimScroll({
-                height: '700px'
+                height: '700px',
+                opacity: 0
             }).on('slimscroll', function (e, pos) {
                 if (pos == 'bottom') {
                     currpage += 1;
@@ -49,7 +50,8 @@ var currpage = 1;//默认当前第一页
                 }
             });
             $('#ulCategory').slimScroll({
-                height: '480px'
+                height: '480px',
+                opacity: 0
             });
             $("#imglst").on("click", "tr", function () {
                 var $chk = $(this).find('input[type="checkbox"]');
@@ -58,6 +60,18 @@ var currpage = 1;//默认当前第一页
                     flag = 'uncheck';
                 }
                 $chk.iCheck(flag);
+            });
+
+            $("#ulCategory").on("click","li", function () {
+                $("#ulCategory li").removeClass("li_active");
+                $(this).addClass("li_active");
+                $("#ulCategory li i").each(function () {
+                    if ($(this).hasClass("fa-folder-open")) {
+                        $(this).removeClass("fa-folder-open").addClass("fa-folder");
+                    }
+                });
+                $(this).find("i").removeClass("fa-folder").addClass("fa-folder-open");
+                //$.piclist_imgmanager.fnimglist(true);
             });
         },
         loadcategory:function(){
@@ -73,18 +87,6 @@ var currpage = 1;//默认当前第一页
                             strhtml += '<li data-id="' + data[i]["id"] + '"><a href="#"><i class="fa fa-folder"></i>' + data[i]["text"] + '</a></li>';
                         });
                         $("#ulCategory").empty().append(strhtml);
-
-                        $("#ulCategory li").bind("click", function () {
-                            $("#ulCategory li").removeClass("li_active");
-                            $(this).addClass("li_active");
-                            $("#ulCategory li i").each(function () {
-                                if ($(this).hasClass("fa-folder-open")) {
-                                    $(this).removeClass("fa-folder-open").addClass("fa-folder");
-                                }
-                            });
-                            $(this).find("i").removeClass("fa-folder").addClass("fa-folder-open");
-                            $.piclist_imgmanager.fnimglist(true);
-                        });
                     }
                 });
             },
