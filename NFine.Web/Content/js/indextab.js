@@ -114,6 +114,9 @@
             }
             var dataUrl = $(this).attr('href');
             var menuName = $.trim($(this).text());
+            if (menuName == "" || menuName == null || menuName == undefined) {
+                menuName = $.trim($(this).data("title"));
+            }
             var flag = true;
             if (dataUrl == undefined || $.trim(dataUrl).length == 0) {
                 return false;
