@@ -96,7 +96,7 @@ var context = context || (function () {
 			$menu = buildMenu(data, id);
 
         $('body').append($menu);
-
+        $('body').authorizeButton();
 
         $(document).on('contextmenu', selector, function (e) {
             e.preventDefault();

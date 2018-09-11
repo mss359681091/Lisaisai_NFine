@@ -108,7 +108,7 @@ namespace NFine.Web.Controllers
         public FileContentResult CreateShortcutFile()
         {
             string browser = Request.UserAgent.ToUpper();
-            string outputFileName = "搜二点存图.url";
+            string outputFileName = "恒禹软件.url";
 
             if (browser.Contains("MS") == true && browser.Contains("IE") == true)
             {
@@ -124,7 +124,7 @@ namespace NFine.Web.Controllers
             }
 
             string HostAddr = "http://" + Request.Url.Authority;
-            string icoPath = HostAddr + "/Favicon.ico";//修改此处更改url图标或者图标路径，当前路径为根目录，只用修改相对路径，图标的完整路径由下方会自动生成
+            string icoPath = HostAddr + "/favicon.ico";//修改此处更改url图标或者图标路径，当前路径为根目录，只用修改相对路径，图标的完整路径由下方会自动生成
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("[InternetShortcut]");
             sb.AppendLine("URL=" + HostAddr); //快捷方式的外部链接  
@@ -135,7 +135,7 @@ namespace NFine.Web.Controllers
             sb.AppendLine("Prop3=19,2 ");
             //第一种:使用FileContentResult  
             byte[] fileContents = Encoding.Default.GetBytes(sb.ToString());
-            //string fileName = System.Web.HttpUtility.UrlEncode("搜二点存图", System.Text.Encoding.UTF8) + ".url";
+            //string fileName = System.Web.HttpUtility.UrlEncode("恒禹软件", System.Text.Encoding.UTF8) + ".url";
             return File(fileContents, "APPLICATION/OCTET-STREAM", outputFileName);
         }
         #endregion
