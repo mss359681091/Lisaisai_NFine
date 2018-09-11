@@ -15,6 +15,7 @@ namespace NFine.Domain
                 entity.F_CreatorUserId = LoginInfo.UserId;
             }
             entity.F_CreatorTime = DateTime.Now;
+            entity.F_EnabledMark = true;
         }
         public void Modify(string keyValue)
         {

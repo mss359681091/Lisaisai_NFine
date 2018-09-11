@@ -63,7 +63,10 @@ namespace NFine.Code
         /// <returns></returns>
         public static string GuId()
         {
-            return Guid.NewGuid().ToString();
+            long i = 1;
+            foreach (byte b in Guid.NewGuid().ToByteArray())
+                i *= ((int)b + 1);
+            return string.Format("{0:x}", i - DateTime.Now.Ticks);
         }
         /// <summary>
         /// 自动生成编号  201008251145409865
@@ -223,6 +226,22 @@ namespace NFine.Code
                 bitmap.Dispose();
                 g.Dispose();
             }
+        }
+        #endregion
+
+        #region 绝对路径转相对路径
+        /// <summary>
+        /// 绝对路径转相对路径
+        /// </summary>
+        /// <param name="strUrl"></param>
+        /// <returns></returns>
+        public static string urlConvertor(string strUrl)
+        {
+            string tmpRootDir = HttpContext.Current.Server.MapPath(System.Web.HttpContext.Current.Request.ApplicationPath.ToString());//获取程序根目录
+            string urlPath = strUrl.Replace(tmpRootDir, ""); //转换成相对路径
+            urlPath = "/" + urlPath;
+            urlPath = urlPath.Replace(@"\", @"/");
+            return urlPath;
         }
         #endregion
     }

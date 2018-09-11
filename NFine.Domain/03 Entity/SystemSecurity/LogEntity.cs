@@ -16,5 +16,6 @@ namespace NFine.Domain.Entity.SystemSecurity
         public string F_Description { get; set; }
         public DateTime? F_CreatorTime { get; set; }
         public string F_CreatorUserId { get; set; }
+        public bool? F_EnabledMark { get; set; }
     }
 }

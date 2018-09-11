@@ -35,9 +35,9 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SubmitForm(DbBackupEntity dbBackupEntity)
         {
-            string DBBasePath = System.Configuration.ConfigurationManager.AppSettings["CTDBBasePath"];
-            dbBackupEntity.F_FilePath = DBBasePath + dbBackupEntity.F_FileName + ".bak";
+            string DBBasePath =Server.MapPath("/Resource/DbBackup/") ;
             FileHelper.CreateDirectory(DBBasePath);
+            dbBackupEntity.F_FilePath = DBBasePath + dbBackupEntity.F_FileName + ".bak";
             dbBackupEntity.F_FileName = dbBackupEntity.F_FileName + ".bak";
             dbBackupApp.SubmitForm(dbBackupEntity);
             base.ErrLog("数据库备份", "/SystemSecurity/DbBackup/SubmitForm", "数据备份", Application.DbLogType.Other);
