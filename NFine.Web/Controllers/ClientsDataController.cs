@@ -6,6 +6,7 @@
 *********************************************************************************/
 using NFine.Application.SystemManage;
 using NFine.Code;
+using NFine.Domain;
 using NFine.Domain.Entity.SystemManage;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,16 +150,16 @@ namespace NFine.Web.Controllers
         {
             var roleId = OperatorProvider.Provider.GetCurrent().RoleId;
             var data = new RoleAuthorizeApp().GetButtonList(roleId);
-            var dataModuleId = data.Distinct(new ExtList<ModuleButtonEntity>("F_ModuleId"));
+            var dataModuleId = data.Distinct(new ExtList<ModuleButtonDto>("F_ModuleId"));
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            foreach (ModuleButtonEntity item in dataModuleId)
+            foreach (ModuleButtonDto item in dataModuleId)
             {
                 var buttonList = data.Where(t => t.F_ModuleId.Equals(item.F_ModuleId));
                 dictionary.Add(item.F_ModuleId, buttonList);
             }
             return dictionary;
         }
-     
+
     }
 }
 

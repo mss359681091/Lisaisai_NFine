@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NFine.Domain;
+using AutoMapper;
 
 namespace NFine.Application.SystemManage
 {
@@ -56,7 +57,7 @@ namespace NFine.Application.SystemManage
             }
             return data.OrderBy(t => t.F_SortCode).ToList();
         }
-        public List<ModuleButtonEntity> GetButtonList(string roleId)
+        public List<ModuleButtonDto> GetButtonList(string roleId)
         {
             var data = new List<ModuleButtonEntity>();
             if (OperatorProvider.Provider.GetCurrent().IsSystem)
@@ -76,7 +77,8 @@ namespace NFine.Application.SystemManage
                     }
                 }
             }
-            return data.OrderBy(t => t.F_SortCode).ToList();
+            data = data.OrderBy(t => t.F_SortCode).ToList();
+            return Mapper.Map<List<ModuleButtonEntity>, List<ModuleButtonDto>>(data);//Dto映射
         }
         public bool ActionValidate(string roleId, string moduleId, string action)
         {

@@ -62,6 +62,7 @@
     <Compile Include="01 Infrastructure\IDeleteAudited.cs" />
     <Compile Include="01 Infrastructure\IEntity.cs" />
     <Compile Include="01 Infrastructure\IModificationAudited.cs" />
+    <Compile Include="02 ViewModel\SystemManage\ModuleButtonDto.cs" />
     <Compile Include="02 ViewModel\SystemManage\UserDto.cs" />
     <Compile Include="03 Entity\QuartzManage\CustomerJobInfoEntity.cs" />
     <Compile Include="03 Entity\SystemManage\AreaEntity.cs" />

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
+﻿using AutoMapper;
 
- namespace NFine.Application.AutoMapper
+namespace NFine.Application.AutoMapper
 {
     public class Configuration
     {
@@ -12,7 +8,7 @@ using AutoMapper;
         {
             Mapper.Initialize(cfg =>
             {
-     
+                cfg.AddProfile<SystemManageProfile>();
             });
         }
     }

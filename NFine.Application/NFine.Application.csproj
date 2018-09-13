@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapper\SystemManage\SystemManageProfile.cs" />
     <Compile Include="Infrastructure\DbLogType.cs" />
     <Compile Include="AutoMapper\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
