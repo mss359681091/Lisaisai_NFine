@@ -170,9 +170,11 @@ function GetLoadNav() {
                     _html += '<ul class="submenu">';
                     $.each(childNodes, function (i) {
                         var subrow = childNodes[i];
-                        _html += '<li>';
-                        _html += '<a class="menuItem" data-id="' + subrow.F_Id + '" href="' + subrow.F_UrlAddress + '" data-index="' + subrow.F_SortCode + '">' + subrow.F_FullName + '</a>';
-                        _html += '</li>';
+                        if (subrow.F_IsMenu.toString().toLowerCase() == "true") {
+                            _html += '<li>';
+                            _html += '<a class="menuItem" data-id="' + subrow.F_Id + '" href="' + subrow.F_UrlAddress + '" data-index="' + subrow.F_SortCode + '">' + subrow.F_FullName + '</a>';
+                            _html += '</li>';
+                        }
                     });
                     _html += '</ul>';
                 }
