@@ -94,6 +94,24 @@
             btn: null,
         });
     }
+
+    function btn_users() {
+        var obj = '';
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        var key = $("#gridList").jqGridRowValue().F_CategoryId;
+
+        $.modalOpen({
+            id: "Form",
+            title: "岗位人员",
+            url: "/SystemManage/User/HasUsers?dutyId=" + keyValue,
+            width: "90%",
+            height: "90%",
+            callBack: function (iframeId) {
+
+            }
+        });
+    }
+
 </script>
 
 <div class="topPanel">
@@ -110,6 +128,7 @@
                 <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改岗位</a></li>
                 <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除岗位</a></li>
                 <li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看岗位</a></li>
+                <li><a id="NF-Users" authorize="yes" onclick="btn_users()"><i class="fa fa-users"></i>岗位人员</a></li>
             </ul>
             <a href="javascript:;" class="close"></a>
         </div>

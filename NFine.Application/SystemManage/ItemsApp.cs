@@ -56,7 +56,7 @@ namespace NFine.Application.SystemManage
             }
             else
             {
-                service.Delete(t => t.F_Id == keyValue);
+                service.DeleteForm(keyValue);//级联删除
                 cache.RemoveCache(cacheKey);
             }
         }

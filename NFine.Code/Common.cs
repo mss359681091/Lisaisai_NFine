@@ -80,6 +80,18 @@ namespace NFine.Code
             string code = DateTime.Now.ToString("yyyyMMddHHmmss") + strRandom;//形如
             return code;
         }
+        /// <summary>  
+        /// 根据GUID获取16位的唯一字符串  
+        /// </summary>  
+        /// <param name=\"guid\"></param>  
+        /// <returns></returns>  
+        public static string GuidTo16String()
+        {
+            long i = 1;
+            foreach (byte b in Guid.NewGuid().ToByteArray())
+                i *= ((int)b + 1);
+            return string.Format("{0:x}", i - DateTime.Now.Ticks);
+        }
         #endregion
 
         #region 生成0-9随机数

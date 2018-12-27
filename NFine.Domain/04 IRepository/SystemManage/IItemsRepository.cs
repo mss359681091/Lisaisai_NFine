@@ -5,7 +5,7 @@ namespace NFine.Domain.IRepository.SystemManage
 {
     public interface IItemsRepository : IRepositoryBase<ItemsEntity>
     {
-      
+        void DeleteForm(string keyValue);
     }
 
 }

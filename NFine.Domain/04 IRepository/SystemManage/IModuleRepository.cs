@@ -5,5 +5,6 @@ namespace NFine.Domain.IRepository.SystemManage
 {
     public interface IModuleRepository : IRepositoryBase<ModuleEntity>
     {
+        void DeleteForm(string keyValue);
     }
 }
