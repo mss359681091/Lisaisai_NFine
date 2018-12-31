@@ -10,6 +10,7 @@ using NFine.Application.SystemSecurity;
 using NFine.Code;
 using NFine.Domain.Entity.SystemManage;
 using NFine.Domain.Entity.SystemSecurity;
+using NFine.Web.Infrastructure;
 using System;
 using System.Web.Mvc;
 
@@ -30,31 +31,17 @@ namespace NFine.Web.Controllers
         [HttpGet]
         public ActionResult OutLogin()
         {
-            new LogApp().WriteDbLog(new LogEntity
-            {
-                F_ModuleId = "系统登录",
-                F_ModuleName = "/Login/Index",
-                F_Type = DbLogType.Exit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                F_Result = true,
-                F_Description = "安全退出系统",
-            });
+            MessageQueue.QueueList("安全退出系统", "/Login/Index", "系统登录", DbLogType.Exit, RedisTypeEnum.LoginLog);
             Session.Abandon();
             Session.Clear();
             OperatorProvider.Provider.RemoveCurrent();
             return RedirectToAction("Index", "Login");
         }
 
-
         [HttpPost]
         [HandlerAjaxOnly]
         public ActionResult CheckLogin(string username, string password, string code, int? errornum)
         {
-            LogEntity logEntity = new LogEntity();
-            logEntity.F_ModuleId = "系统登录";
-            logEntity.F_ModuleName = "/Login/Index";
-            logEntity.F_Type = DbLogType.Login.ToString();
             try
             {
                 if (errornum >= 3)
@@ -87,21 +74,14 @@ namespace NFine.Web.Controllers
                         operatorModel.IsSystem = false;
                     }
                     OperatorProvider.Provider.AddCurrent(operatorModel);
-                    logEntity.F_Account = userEntity.F_Account;
-                    logEntity.F_NickName = userEntity.F_RealName;
-                    logEntity.F_Result = true;
-                    logEntity.F_Description = "登录成功";
-                    new LogApp().WriteDbLog(logEntity);
+                    MessageQueue.QueueList("登录成功", "/Login/Index", "系统登录", DbLogType.Login, RedisTypeEnum.LoginLog);
+
                 }
                 return Content(new AjaxResult { state = ResultType.success.ToString(), message = "登录成功。" }.ToJson());
             }
             catch (Exception ex)
             {
-                logEntity.F_Account = username;
-                logEntity.F_NickName = username;
-                logEntity.F_Result = false;
-                logEntity.F_Description = "登录失败，" + ex.Message;
-                new LogApp().WriteDbLog(logEntity);
+                MessageQueue.QueueList("登录失败" + ex.Message, "/Login/Index", "系统登录", DbLogType.Login, RedisTypeEnum.LoginLog);
                 return Content(new AjaxResult { state = ResultType.error.ToString(), message = ex.Message }.ToJson());
             }
         }

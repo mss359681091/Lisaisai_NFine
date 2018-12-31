@@ -4,6 +4,8 @@
  * Description: NFine快速开发平台
  * Website：http://blog.csdn.net/mss359681091
 *********************************************************************************/
+using NFine.Cache;
+using NFine.Cache.Factory;
 using NFine.Code;
 using NFine.Domain;
 using NFine.Domain.Entity.SystemManage;

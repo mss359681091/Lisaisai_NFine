@@ -7,6 +7,8 @@
 // * history : Created by T4 06/08/2018 09:38:22 
 // </copyright>
 //-----------------------------------------------------------------------
+using NFine.Cache;
+using NFine.Cache.Factory;
 using NFine.Code;
 using NFine.Domain.Entity;
 using NFine.Domain.IRepository;

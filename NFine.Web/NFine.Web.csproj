@@ -58,19 +58,6 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NPOI, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NFine.Code\bin\Debug\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>..\NFine.Code\bin\Debug\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>..\NFine.Code\bin\Debug\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>..\NFine.Code\bin\Debug\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="Quartz.Net_JobBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Quartz.Net_JobBase.dll</HintPath>
@@ -153,6 +140,7 @@
     <Compile Include="App_Start\Handler\HandlerErrorAttribute.cs" />
     <Compile Include="App_Start\Handler\HandlerLoginAttribute.cs" />
     <Compile Include="App_Start\Handler\ControllerBase.cs" />
+    <Compile Include="App_Start\MessageQueueConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\ExampleManage\Controllers\BarCodeController.cs" />
     <Compile Include="Areas\ExampleManage\Controllers\PrintController.cs" />
@@ -195,6 +183,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\MessageQueue.cs" />
+    <Compile Include="Infrastructure\RedisTypeEnum.cs" />
     <Compile Include="Infrastructure\SessionEnabledControllerHandler.cs" />
     <Compile Include="Infrastructure\SessionEnabledHttpControllerRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1056,6 +1046,10 @@
       <Project>{4e642cbe-f6c5-4cb9-9474-6b349652fe77}</Project>
       <Name>NFine.Mapping</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NFine.Redis\NFine.Redis.csproj">
+      <Project>{FA6F2C06-68C5-438F-95E5-D4D25A206473}</Project>
+      <Name>NFine.Redis</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Form.cshtml" />
@@ -1251,6 +1245,7 @@
     <Content Include="Content\js\laydate\theme\default\font\iconfont.eot" />
     <Content Include="Content\js\laydate\theme\default\font\iconfont.ttf" />
     <Content Include="Content\js\laydate\theme\default\font\iconfont.woff" />
+    <Content Include="Configs\redis.config" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Home\Avatar.cshtml" />

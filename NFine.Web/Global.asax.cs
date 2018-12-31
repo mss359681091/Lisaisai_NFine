@@ -30,7 +30,7 @@ namespace NFine.Web
             var connectionString = DBConnection.connectionString;
             //启动数据库的数据缓存依赖功能    
             SqlCacheDependencyAdmin.EnableNotifications(connectionString);
-            string[] tables = { "Web_Attachment", "Web_Content", "Web_Node", "Web_FriendLinks", "Sys_Items", "Sys_ItemsDetail", "Sys_Module", "Sys_ModuleButton", "Sys_ModuleForm", "Sys_Role", "Sys_RoleAuthorize", "Sys_User", "Sys_UserLogOn", "Sys_Area", "Sys_Log", "Sys_Organize", "Sys_BackupServer", "Sys_FileBackup", "Web_Picture", "Web_SourceFile" };
+            string[] tables = { "Web_Attachment", "Web_Content", "Web_Node", "Web_FriendLinks", "Sys_Items", "Sys_ItemsDetail", "Sys_Module", "Sys_ModuleButton", "Sys_ModuleForm", "Sys_Role", "Sys_RoleAuthorize", "Sys_User", "Sys_UserLogOn", "Sys_Area", "Sys_Log", "Sys_Organize", "Sys_BackupServer", "Sys_FileBackup", "Web_Picture" };
             //启用数据表缓存
             SqlCacheDependencyAdmin.EnableTableForNotifications(connectionString, tables);
 
@@ -40,6 +40,10 @@ namespace NFine.Web
             //-P 123456：数据库登录密码
             //-d wcfDemo：数据库的名称
             //-t user：表名称(小写)
+
+
+            //消息队列处理，需要服务器部署redis
+            //MessageQueueConfig.RegisterExceptionLogQueue();
         }
     }
 }

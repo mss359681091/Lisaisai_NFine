@@ -7,7 +7,12 @@
         initControl();
     });
     function initControl() {
-        $("#F_DbName").bindSelect()
+       
+        $("#F_DbName").bindSelect({
+            url: "/SystemManage/ItemsData/GetSelectJson",
+            param: { enCode: "DbName" },
+            search: true
+        });
         $("#F_BackupType").bindSelect()
     }
     function submitForm() {
@@ -35,7 +40,7 @@
                 <th class="formTitle">数据库名</th>
                 <td class="formValue">
                     <select id="F_DbName" name="F_DbName" class="form-control required">
-                        <option value="NFineBase">NFineBase</option>
+                        
                     </select>
                 </td>
             </tr>

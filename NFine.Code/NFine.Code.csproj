@@ -92,9 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base64.cs" />
-    <Compile Include="Cache\Cache.cs" />
-    <Compile Include="Cache\CacheFactory.cs" />
-    <Compile Include="Cache\ICache.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Configs\Configs.cs" />
     <Compile Include="Configs\DBConnection.cs" />

@@ -4,6 +4,8 @@ using NFine.Application.SystemSecurity;
 using NFine.Code;
 using NFine.Domain.Entity.SystemManage;
 using NFine.Domain.Entity.SystemSecurity;
+using NFine.Redis;
+using NFine.Web.Infrastructure;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -15,7 +17,7 @@ namespace NFine.Web
         private OrganizeApp organizeApp = new OrganizeApp();
         private RoleApp roleApp = new RoleApp();
         private DutyApp dutyApp = new DutyApp();
-      
+
 
         public Log FileLog
         {
@@ -54,13 +56,11 @@ namespace NFine.Web
 
         protected virtual void ErrLog(string errMsg, string moduleName, string moduleId, DbLogType type)
         {
-            //Task.Run(() =>
-            //{
             string cacheType = Configs.GetValue("CacheType");//缓存类型
             switch (cacheType)
             {
                 case "Redis":
-                    //RedisCache.EnqueueItemOnList(RedisTypeEnum.ExceptionLog.ToString(), errMsg);//操作消息入队   
+                    RedisCache.EnqueueItemOnList(RedisTypeEnum.ExceptionLog.ToString(), errMsg);//操作消息入队   
                     break;
                 case "WebCache":
                     if (!string.IsNullOrEmpty(errMsg))
@@ -81,8 +81,6 @@ namespace NFine.Web
 
                     break;
             }
-
-            //});
         }
 
         #region 绑定下拉菜单

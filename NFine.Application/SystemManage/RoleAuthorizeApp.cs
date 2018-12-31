@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NFine.Domain;
 using AutoMapper;
+using NFine.Cache;
+using NFine.Cache.Factory;
 
 namespace NFine.Application.SystemManage
 {

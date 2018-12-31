@@ -110,8 +110,16 @@
     <Compile Include="SystemSecurity\SysFileBackupApp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NFine.Cache.Factory\NFine.Cache.Factory.csproj">
+      <Project>{51572123-4F3E-4BC2-8B1E-BD0BAB57A360}</Project>
+      <Name>NFine.Cache.Factory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFine.Cache\NFine.Cache.csproj">
+      <Project>{659835E9-3BB5-4226-93C5-2FEEC96BD5A7}</Project>
+      <Name>NFine.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NFine.Code\NFine.Code.csproj">
-      <Project>{db19ce03-c307-43fe-a209-08aa4ae10e21}</Project>
+      <Project>{DB19CE03-C307-43FE-A209-08AA4AE10E21}</Project>
       <Name>NFine.Code</Name>
     </ProjectReference>
     <ProjectReference Include="..\NFine.Data\NFine.Data.csproj">
