@@ -53,14 +53,9 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Quartz.Net_JobBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Quartz.Net_JobBase.dll</HintPath>
+      <HintPath>..\dll\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -1049,6 +1044,10 @@
     <ProjectReference Include="..\NFine.Redis\NFine.Redis.csproj">
       <Project>{FA6F2C06-68C5-438F-95E5-D4D25A206473}</Project>
       <Name>NFine.Redis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quartz.Net_JobBase\Quartz.Net_JobBase.csproj">
+      <Project>{104c317e-3783-4206-8066-966333707406}</Project>
+      <Name>Quartz.Net_JobBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
