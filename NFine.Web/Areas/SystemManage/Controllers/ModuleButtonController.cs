@@ -67,11 +67,11 @@ namespace NFine.Web.Areas.SystemManage.Controllers
             moduleButtonApp.SubmitForm(moduleButtonEntity, keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("按钮编辑：F_Id:" + keyValue, "/SystemManage/ModuleButton/SubmitForm", "菜单按钮管理", Application.DbLogType.Update);
+                base.OperateLog("按钮编辑：F_Id:" + keyValue, "/SystemManage/ModuleButton/SubmitForm", "菜单按钮管理", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增按钮：" + moduleButtonEntity.F_FullName, "/SystemManage/ModuleButton/SubmitForm", "菜单按钮管理", Application.DbLogType.Create);
+                base.OperateLog("新增按钮：" + moduleButtonEntity.F_FullName, "/SystemManage/ModuleButton/SubmitForm", "菜单按钮管理", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
@@ -81,7 +81,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             moduleButtonApp.DeleteForm(keyValue);
-            base.ErrLog("按钮删除：F_Id:" + keyValue, "/SystemManage/ModuleButton/DeleteForm", "菜单按钮管理", Application.DbLogType.Delete);
+            base.OperateLog("按钮删除：F_Id:" + keyValue, "/SystemManage/ModuleButton/DeleteForm", "菜单按钮管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
         [HttpGet]

@@ -67,11 +67,11 @@ namespace NFine.Web.Areas.SystemManage.Controllers
             userApp.SubmitForm(userEntity, userLogOnEntity, keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("用户编辑：F_Id:" + keyValue, "/SystemManage/User/SubmitForm", "用户管理", Application.DbLogType.Update);
+                base.OperateLog("用户编辑：F_Id:" + keyValue, "/SystemManage/User/SubmitForm", "用户管理", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增用户：" + userEntity.F_Account, "/SystemManage/User/SubmitForm", "用户管理", Application.DbLogType.Create);
+                base.OperateLog("新增用户：" + userEntity.F_Account, "/SystemManage/User/SubmitForm", "用户管理", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
@@ -83,7 +83,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             userApp.DeleteForm(keyValue);
-            base.ErrLog("用户删除：F_Id:" + keyValue, "/SystemManage/User/DeleteForm", "用户管理", Application.DbLogType.Delete);
+            base.OperateLog("用户删除：F_Id:" + keyValue, "/SystemManage/User/DeleteForm", "用户管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
 
@@ -100,7 +100,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult SubmitRevisePassword(string userPassword, string keyValue)
         {
             userLogOnApp.RevisePassword(userPassword, keyValue);
-            base.ErrLog("重置密码：F_Id:" + keyValue, "/SystemManage/User/SubmitRevisePassword", "用户管理", Application.DbLogType.Submit);
+            base.OperateLog("重置密码：F_Id:" + keyValue, "/SystemManage/User/SubmitRevisePassword", "用户管理", Application.DbLogType.Submit);
             return Success("重置密码成功。");
         }
 
@@ -114,7 +114,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
             userEntity.F_Id = keyValue;
             userEntity.F_EnabledMark = false;
             userApp.UpdateForm(userEntity);
-            base.ErrLog("禁用账户：F_Id:" + keyValue, "/SystemManage/User/DisabledAccount", "用户管理", Application.DbLogType.Submit);
+            base.OperateLog("禁用账户：F_Id:" + keyValue, "/SystemManage/User/DisabledAccount", "用户管理", Application.DbLogType.Submit);
             return Success("账户禁用成功。");
         }
 
@@ -128,7 +128,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
             userEntity.F_Id = keyValue;
             userEntity.F_EnabledMark = true;
             userApp.UpdateForm(userEntity);
-            base.ErrLog("启用账户：F_Id:" + keyValue, "/SystemManage/User/EnabledAccount", "用户管理", Application.DbLogType.Submit);
+            base.OperateLog("启用账户：F_Id:" + keyValue, "/SystemManage/User/EnabledAccount", "用户管理", Application.DbLogType.Submit);
             return Success("账户启用成功。");
         }
 

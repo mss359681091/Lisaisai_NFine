@@ -15,7 +15,7 @@ namespace NFine.Web.Infrastructure
             {
                 case "Redis":
                     errMsg = errMsg.Replace(";", "");
-                    errMsg = moduleId + ";" + moduleName + ";" + type.ToString() + ";" + errMsg;
+                    errMsg = moduleId + ";" + moduleName + ";" + type.ToString() + ";" + errMsg + ";" + OperatorProvider.Provider.GetCurrent().UserCode + ";" + OperatorProvider.Provider.GetCurrent().UserName;
                     RedisCache.EnqueueItemOnList(redistype.ToString(), errMsg);//操作消息入队   
                     break;
                 case "WebCache":

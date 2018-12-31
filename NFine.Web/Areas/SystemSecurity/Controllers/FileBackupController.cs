@@ -45,11 +45,11 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("编辑文件备份：F_Id:" + keyValue, "/SystemSecurity/FileBackup/SubmitForm", "文件备份", Application.DbLogType.Update);
+                base.OperateLog("编辑文件备份：F_Id:" + keyValue, "/SystemSecurity/FileBackup/SubmitForm", "文件备份", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增文件备份", "/SystemSecurity/FileBackup/SubmitForm", "文件备份", Application.DbLogType.Create);
+                base.OperateLog("新增文件备份：" + entity.F_BackupName, "/SystemSecurity/FileBackup/SubmitForm", "文件备份", Application.DbLogType.Create);
             }
 
             if (!string.IsNullOrEmpty(entity.F_ServerIp))
@@ -127,7 +127,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             app.DeleteForm(keyValue);
-            base.ErrLog("删除文件备份：" + keyValue, "/SystemSecurity/FileBackup/DeleteForm", "文件备份", Application.DbLogType.Delete);
+            base.OperateLog("删除文件备份：" + keyValue, "/SystemSecurity/FileBackup/DeleteForm", "文件备份", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
 

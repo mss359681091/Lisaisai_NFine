@@ -43,11 +43,11 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
             filterIPApp.SubmitForm(filterIPEntity, keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("编辑控制：F_Id:" + keyValue, "/SystemSecurity/FilterIP/SubmitForm", "访问控制", Application.DbLogType.Update);
+                base.OperateLog("编辑控制：F_Id:" + keyValue, "/SystemSecurity/FilterIP/SubmitForm", "访问控制", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增控制", "/SystemSecurity/FilterIP/SubmitForm", "访问控制", Application.DbLogType.Create);
+                base.OperateLog("新增控制", "/SystemSecurity/FilterIP/SubmitForm", "访问控制", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
@@ -58,7 +58,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             filterIPApp.DeleteForm(keyValue);
-            base.ErrLog("删除控制：" + keyValue, "/SystemSecurity/FilterIP/DeleteForm", "删除控制", Application.DbLogType.Delete);
+            base.OperateLog("删除控制：" + keyValue, "/SystemSecurity/FilterIP/DeleteForm", "删除控制", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

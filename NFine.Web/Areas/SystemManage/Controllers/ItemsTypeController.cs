@@ -92,11 +92,11 @@ namespace NFine.Web.Areas.SystemManage.Controllers
             itemsApp.SubmitForm(itemsEntity, keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("分类编辑：F_Id:" + keyValue, "/SystemManage/ItemsType/SubmitForm", "分类管理", Application.DbLogType.Update);
+                base.OperateLog("分类编辑：F_Id:" + keyValue, "/SystemManage/ItemsType/SubmitForm", "分类管理", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增分类：" + itemsEntity.F_FullName, "/SystemManage/ItemsType/SubmitForm", "分类管理", Application.DbLogType.Create);
+                base.OperateLog("新增分类：" + itemsEntity.F_FullName, "/SystemManage/ItemsType/SubmitForm", "分类管理", Application.DbLogType.Create);
             }
 
             return Success("操作成功。");
@@ -107,7 +107,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             itemsApp.DeleteForm(keyValue);
-            base.ErrLog("分类删除：F_Id:" + keyValue, "/SystemManage/ItemsType/DeleteForm", "分类管理", Application.DbLogType.Delete);
+            base.OperateLog("分类删除：F_Id:" + keyValue, "/SystemManage/ItemsType/DeleteForm", "分类管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

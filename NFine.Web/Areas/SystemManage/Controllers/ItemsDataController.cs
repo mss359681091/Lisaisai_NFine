@@ -52,11 +52,11 @@ namespace NFine.Web.Areas.SystemManage.Controllers
 
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("字典编辑：F_Id:" + keyValue, "/SystemManage/Items/SubmitForm", "字典管理", Application.DbLogType.Update);
+                base.OperateLog("字典编辑：F_Id:" + keyValue, "/SystemManage/Items/SubmitForm", "字典管理", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增字典：" + itemsDetailEntity.F_ItemName, "/SystemManage/Items/SubmitForm", "字典管理", Application.DbLogType.Create);
+                base.OperateLog("新增字典：" + itemsDetailEntity.F_ItemName, "/SystemManage/Items/SubmitForm", "字典管理", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
@@ -67,7 +67,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             itemsDetailApp.DeleteForm(keyValue);
-            base.ErrLog("删除字典：" + keyValue, "/SystemManage/Items/DeleteForm", "字典管理", Application.DbLogType.Delete);
+            base.OperateLog("删除字典：" + keyValue, "/SystemManage/Items/DeleteForm", "字典管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

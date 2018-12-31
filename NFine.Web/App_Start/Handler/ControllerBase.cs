@@ -54,13 +54,15 @@ namespace NFine.Web
             return Content(new AjaxResult { state = ResultType.error.ToString(), message = message }.ToJson());
         }
 
-        protected virtual void ErrLog(string errMsg, string moduleName, string moduleId, DbLogType type)
+        protected virtual void OperateLog(string errMsg, string moduleName, string moduleId, DbLogType type)
         {
             string cacheType = Configs.GetValue("CacheType");//缓存类型
             switch (cacheType)
             {
                 case "Redis":
-                    RedisCache.EnqueueItemOnList(RedisTypeEnum.ExceptionLog.ToString(), errMsg);//操作消息入队   
+                    errMsg = errMsg.Replace(";", "");
+                    errMsg = moduleId + ";" + moduleName + ";" + type.ToString() + ";" + errMsg + ";" + OperatorProvider.Provider.GetCurrent().UserCode + ";" + OperatorProvider.Provider.GetCurrent().UserName;
+                    RedisCache.EnqueueItemOnList(RedisTypeEnum.OperateLog.ToString(), errMsg);//操作消息入队   
                     break;
                 case "WebCache":
                     if (!string.IsNullOrEmpty(errMsg))

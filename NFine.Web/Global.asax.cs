@@ -43,7 +43,7 @@ namespace NFine.Web
 
 
             //消息队列处理，需要服务器部署redis
-            //MessageQueueConfig.RegisterExceptionLogQueue();
+            MessageQueueConfig.RegisterExceptionLogQueue();
         }
     }
 }

@@ -43,11 +43,11 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
             app.SubmitForm(model, keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("编辑备份服务器：F_Id:" + keyValue, "/SystemSecurity/BackupServer/SubmitForm", "备份服务器", Application.DbLogType.Update);
+                base.OperateLog("编辑备份服务器：F_Id:" + keyValue, "/SystemSecurity/BackupServer/SubmitForm", "备份服务器", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增备份服务器", "/SystemSecurity/BackupServer/SubmitForm", "备份服务器", Application.DbLogType.Create);
+                base.OperateLog("新增备份服务器", "/SystemSecurity/BackupServer/SubmitForm", "备份服务器", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
@@ -58,7 +58,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             app.DeleteForm(keyValue);
-            base.ErrLog("删除备份服务器：" + keyValue, "/SystemSecurity/BackupServer/DeleteForm", "备份服务器", Application.DbLogType.Delete);
+            base.OperateLog("删除备份服务器：" + keyValue, "/SystemSecurity/BackupServer/DeleteForm", "备份服务器", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
 
@@ -78,7 +78,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
                     model.F_EnabledMark = false;
                     app.UpdateForm(model);
                 }
-                base.ErrLog("备份服务器禁用：" + keyValue, "/SystemSecurity/BackupServer/DisabledConents", "备份服务器", Application.DbLogType.Submit);
+                base.OperateLog("备份服务器禁用：" + keyValue, "/SystemSecurity/BackupServer/DisabledConents", "备份服务器", Application.DbLogType.Submit);
                 return Success("禁用成功");
             }
             return Success("请选择禁用项");
@@ -100,7 +100,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
                     model.F_EnabledMark = true;
                     app.UpdateForm(model);
                 }
-                base.ErrLog("备份服务器启用：" + keyValue, "/SystemSecurity/BackupServer/EnabledConents", "备份服务器", Application.DbLogType.Submit);
+                base.OperateLog("备份服务器启用：" + keyValue, "/SystemSecurity/BackupServer/EnabledConents", "备份服务器", Application.DbLogType.Submit);
                 return Success("启用成功");
             }
             return Success("请选择启用项");

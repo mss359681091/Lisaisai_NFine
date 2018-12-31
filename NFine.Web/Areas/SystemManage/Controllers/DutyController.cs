@@ -37,6 +37,14 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult SubmitForm(RoleEntity roleEntity, string keyValue)
         {
             dutyApp.SubmitForm(roleEntity, keyValue);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                base.OperateLog("编辑：F_Id:" + keyValue, "/SystemManage/Duty/Form", "岗位管理", Application.DbLogType.Update);
+            }
+            else
+            {
+                base.OperateLog("新建：F_Id:" + roleEntity.F_FullName, "/SystemManage/Duty/Form", "岗位管理", Application.DbLogType.Create);
+            }
             return Success("操作成功。");
         }
         [HttpPost]
@@ -46,6 +54,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             dutyApp.DeleteForm(keyValue);
+            base.OperateLog("删除：F_Id:" + keyValue, "/SystemManage/Duty/DeleteForm", "岗位管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

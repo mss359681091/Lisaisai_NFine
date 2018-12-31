@@ -91,6 +91,14 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult SubmitForm(OrganizeEntity organizeEntity, string keyValue)
         {
             organizeApp.SubmitForm(organizeEntity, keyValue);
+            if (!string.IsNullOrEmpty(keyValue))
+            {
+                base.OperateLog("编辑：F_Id:" + keyValue, "/SystemManage/Organize/Form", "组织机构", Application.DbLogType.Update);
+            }
+            else
+            {
+                base.OperateLog("新建：F_Id:" + organizeEntity.F_FullName, "/SystemManage/Organize/Form", "组织机构", Application.DbLogType.Create);
+            }
             return Success("操作成功。");
         }
         [HttpPost]
@@ -100,6 +108,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             organizeApp.DeleteForm(keyValue);
+            base.OperateLog("删除：F_Id:" + keyValue, "/SystemManage/Organize/Index", "组织机构", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

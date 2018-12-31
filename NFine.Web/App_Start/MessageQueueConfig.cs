@@ -64,7 +64,7 @@ namespace NFine.Web
                     }
                     catch (Exception ex)
                     {
-                        SendMail(ex.ToString());//发送报告
+                        //SendMail(ex.ToString());//发送报告
                         RedisCache.EnqueueItemOnList(RedisTypeEnum.ExceptionLog.ToString(), ex.ToString());
                     }
                 }
@@ -79,17 +79,20 @@ namespace NFine.Web
         {
             if (!string.IsNullOrEmpty(errorMsg))
             {
-                string[] strMsg = errorMsg.Split(';');
-                new LogApp().WriteDbLog(new LogEntity
+                if (errorMsg.Contains(";"))
                 {
-                    F_ModuleId = strMsg[0],
-                    F_ModuleName = strMsg[1],
-                    F_Type = strMsg[2],
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
-                    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                    F_Result = true,
-                    F_Description = strMsg[3],
-                });
+                    string[] strMsg = errorMsg.Split(';');
+                    new LogApp().WriteDbLog(new LogEntity
+                    {
+                        F_ModuleId = strMsg[0],
+                        F_ModuleName = strMsg[1],
+                        F_Type = strMsg[2],
+                        F_Result = true,
+                        F_Description = strMsg[3],
+                        F_Account = strMsg[4],
+                        F_NickName = strMsg[5],
+                    });
+                }
             }
         }
 

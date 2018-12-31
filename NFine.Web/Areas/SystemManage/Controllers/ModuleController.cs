@@ -71,11 +71,11 @@ namespace NFine.Web.Areas.SystemManage.Controllers
             moduleApp.SubmitForm(moduleEntity, keyValue);
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("菜单编辑：F_Id:" + keyValue, "/SystemManage/Module/SubmitForm", "菜单管理", Application.DbLogType.Update);
+                base.OperateLog("菜单编辑：F_Id:" + keyValue, "/SystemManage/Module/SubmitForm", "菜单管理", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增菜单：" + moduleEntity.F_FullName, "/SystemManage/Module/SubmitForm", "菜单管理", Application.DbLogType.Create);
+                base.OperateLog("新增菜单：" + moduleEntity.F_FullName, "/SystemManage/Module/SubmitForm", "菜单管理", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
@@ -86,7 +86,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             moduleApp.DeleteForm(keyValue);
-            base.ErrLog("删除菜单：" + keyValue, "/SystemManage/Module/DeleteForm", "菜单管理", Application.DbLogType.Delete);
+            base.OperateLog("删除菜单：" + keyValue, "/SystemManage/Module/DeleteForm", "菜单管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

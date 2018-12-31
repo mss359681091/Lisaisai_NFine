@@ -40,7 +40,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
             dbBackupEntity.F_FilePath = DBBasePath + dbBackupEntity.F_FileName + ".bak";
             dbBackupEntity.F_FileName = dbBackupEntity.F_FileName + ".bak";
             dbBackupApp.SubmitForm(dbBackupEntity);
-            base.ErrLog("数据库备份", "/SystemSecurity/DbBackup/SubmitForm", "数据备份", Application.DbLogType.Other);
+            base.OperateLog("数据库备份", "/SystemSecurity/DbBackup/SubmitForm", "数据备份", Application.DbLogType.Other);
             return Success("操作成功。");
         }
         [HttpPost]
@@ -65,7 +65,7 @@ namespace NFine.Web.Areas.SystemSecurity.Controllers
                 {
                     FileDownHelper.DownLoadold(filepath, filename);
                 }
-                base.ErrLog("据库备份下载", "/SystemSecurity/DbBackup/DownloadBackup", "备份下载", Application.DbLogType.Other);
+                base.OperateLog("据库备份下载", "/SystemSecurity/DbBackup/DownloadBackup", "备份下载", Application.DbLogType.Other);
             }
 
         }

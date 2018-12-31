@@ -43,11 +43,11 @@ namespace NFine.Web.Areas.SystemManage.Controllers
 
             if (!string.IsNullOrEmpty(keyValue))
             {
-                base.ErrLog("角色编辑：F_Id:" + keyValue, "/SystemManage/Role/SubmitForm", "角色管理", Application.DbLogType.Update);
+                base.OperateLog("角色编辑：F_Id:" + keyValue, "/SystemManage/Role/SubmitForm", "角色管理", Application.DbLogType.Update);
             }
             else
             {
-                base.ErrLog("新增角色：" + roleEntity.F_FullName, "/SystemManage/Role/SubmitForm", "角色管理", Application.DbLogType.Create);
+                base.OperateLog("新增角色：" + roleEntity.F_FullName, "/SystemManage/Role/SubmitForm", "角色管理", Application.DbLogType.Create);
             }
 
             return Success("操作成功。");
@@ -59,7 +59,7 @@ namespace NFine.Web.Areas.SystemManage.Controllers
         public ActionResult DeleteForm(string keyValue)
         {
             roleApp.DeleteForm(keyValue);
-            base.ErrLog("角色删除：F_Id:" + keyValue, "/SystemManage/Role/DeleteForm", "角色管理", Application.DbLogType.Delete);
+            base.OperateLog("角色删除：F_Id:" + keyValue, "/SystemManage/Role/DeleteForm", "角色管理", Application.DbLogType.Delete);
             return Success("删除成功。");
         }
     }

@@ -102,7 +102,10 @@ namespace NFine.Application.SystemSecurity
             logEntity.F_Date = DateTime.Now;
             logEntity.F_IPAddress = Net.Ip;
             logEntity.F_IPAddressName = Net.GetLocation(logEntity.F_IPAddress);
-            logEntity.Create();
+            logEntity.F_Id = Common.GuId();
+            logEntity.F_CreatorTime = DateTime.Now;
+            logEntity.F_EnabledMark = true;
+            //logEntity.Create();
             service.Insert(logEntity);
         }
     }

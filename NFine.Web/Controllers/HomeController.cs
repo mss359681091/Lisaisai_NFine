@@ -259,7 +259,7 @@ namespace NFine.Web.Controllers
                     sysModuleToUserEntity.F_UserId = userId;
                     sysModuleToUserApp.SubmitForm(sysModuleToUserEntity);
                 }
-                base.ErrLog("添加快捷操作：用户ID:" + userId, "/Home/SubmitMenuListForm", "主页", Application.DbLogType.Create);
+                base.OperateLog("添加快捷操作：用户ID:" + userId, "/Home/SubmitMenuListForm", "主页", Application.DbLogType.Create);
             }
             return Success("操作成功。");
         }
