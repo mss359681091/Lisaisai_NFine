@@ -29,7 +29,7 @@ namespace NFine.Code
         public static string sendMsg(string msg, string phones)
         {
             string un = Configs.GetValue("Account").Trim();
-            string pw = Configs.GetValue("Password").Trim();
+            string pw = DESEncrypt.Decrypt(Configs.GetValue("Password").Trim());//解密
             string PostUrl = Configs.GetValue("PostUrl").Trim();
             string Msgtitle = Configs.GetValue("Msgtitle").Trim();
             string content = Msgtitle + HttpContext.Current.Server.UrlEncode(msg);

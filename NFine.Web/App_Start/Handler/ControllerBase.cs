@@ -36,7 +36,7 @@ namespace NFine.Web
             return View();
         }
         [HttpGet]
-        [HandlerAuthorize]
+        [HandlerAuthorize(ignore: false)]
         public virtual ActionResult Details()
         {
             return View();

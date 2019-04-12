@@ -937,6 +937,7 @@
     <Content Include="Content\js\webuploader-0.1.5\img\webuploader.png" />
     <Content Include="Content\js\webuploader-0.1.5\Uploader.swf" />
     <Content Include="Content\js\webuploader-0.1.5\webuploader-demo.css" />
+    <Content Include="Content\js\webuploader-0.1.5\webuploader-SingleUploader.js" />
     <Content Include="Content\js\webuploader-0.1.5\webuploader-webattachment.min.js" />
     <Content Include="Content\js\webuploader-0.1.5\webuploader-webgoods.min.js" />
     <Content Include="Content\js\webuploader-0.1.5\webuploader-webconent.min.js" />
@@ -1252,6 +1253,8 @@
     <Content Include="Views\Home\Form.cshtml" />
     <Content Include="Views\Shared\_UserSelect.cshtml" />
     <Content Include="Views\Shared\_SupplierSelect.cshtml" />
+    <Content Include="Views\Shared\_SingleUploader.cshtml" />
+    <Content Include="Views\Home\SingleUploader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "单图上传";
+    Layout = "~/Views/Shared/_SingleUploader.cshtml";
+}
+<script type="text/javascript">
+    // 添加全局站点信息
+    var BASE_URL = '/Content/js/webuploader-0.1.5/webuploader';
+
+    $(function () {
+        $("#param_uploader").val($.request("keyValue"));
+        $("#isthumbnai").val($.request("isthumbnai"));
+        $("#flag").val($.request("flag"));
+    });
+</script>
+<script src="~/Content/js/webuploader-0.1.5/webuploader-SingleUploader.js"></script>
+
+
+    @*// 接收图片上传后自行处理
+    function fnGetResult(flag, result) {
+        if (flag = "1") {
+            $("#F_ImageUrl").val(result);
+            layer.closeAll();
+        }
+    }*@
+
+@*onclick="$.SingleUploader('FriendLink','1','1')"*@

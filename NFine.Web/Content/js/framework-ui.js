@@ -451,7 +451,19 @@ $.IntervalLoad = function () {
 }
 /*自定义js*/
 
-
+//单图上传(参数依次为目录、是否压缩、返回标识)
+//回调函数fnGetResult(flag, result),这个函数用来接收返回图片路径并自行处理，页面必须配套
+$.SingleUploader = function (dir, thumbnai, flag) {
+    var url = '/Home/SingleUploader?keyValue=' + escape(dir) + '&isthumbnai=' + thumbnai + '&flag=' + flag;
+    layer.open({
+        title: "上传图片",
+        type: 2,
+        area: ['100%', '100%'],
+        fixed: false, //不固定
+        maxmin: true,
+        content: url
+    });
+}
 
 //获取多选主键集合
 $.fn.jqGridRowIds = function () {

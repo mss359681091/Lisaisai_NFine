@@ -21,6 +21,7 @@ namespace NFine.Web.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet]
+        [HandlerAuthorize(ignore: false)]
         public override ActionResult Index()
         {
             if (OperatorProvider.Provider.GetCurrent() == null)
@@ -227,6 +228,7 @@ namespace NFine.Web.Controllers
         /// 添加快捷操作页面
         /// </summary>
         /// <returns></returns>
+        [HandlerAuthorize(ignore: false)]
         public override ActionResult Form()
         {
             return View();
@@ -264,6 +266,63 @@ namespace NFine.Web.Controllers
             return Success("操作成功。");
         }
         #endregion
+
+        /// <summary>
+        /// 单图上传
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SingleUploader()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 单图上传
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="lastModifiedDate"></param>
+        /// <param name="size"></param>
+        /// <param name="file"></param>
+        /// <param name="param_uploader">文件夹</param>
+        /// <returns></returns>
+        public ActionResult SingleUpLoadProcess(string id, string name, string type, string lastModifiedDate, int size, HttpPostedFileBase file, string param_uploader, string isthumbnai = "")
+        {
+            string filePathName = string.Empty;
+            param_uploader = System.Web.HttpUtility.UrlDecode(param_uploader);//改格式
+            if (Request.Files.Count == 0)
+            {
+                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "保存失败" }, id = "id" });
+            }
+            string filename = name;//图片名称
+            string categoryFolder = "/Upload/" + param_uploader + "/";
+            string thumbnailFolder = "/Upload/" + param_uploader + "_s/";
+            FileHelper.CreateDirectory(Server.MapPath(categoryFolder));
+            FileHelper.CreateDirectory(Server.MapPath(thumbnailFolder));
+
+            string fullpath = Server.MapPath(categoryFolder + filename);//图片物理路径
+            if (!System.IO.File.Exists(fullpath))
+            {
+                file.SaveAs(fullpath);
+            }
+            //是否开启缩略图
+            if (isthumbnai == "1")
+            {
+                NFine.Code.Common.MakeThumbnail(fullpath, Server.MapPath(thumbnailFolder + filename), 450, 450, "W", "jpg");//生成缩略图
+            }
+            var length = FileHelper.ToFileSize(file.ContentLength);//获取图片大小 
+            return Json(new
+            {
+                jsonrpc = "2.0",
+                id = id,
+                F_FilePath = categoryFolder + filename,
+                F_FullName = filename,
+                F_FileSize = length,
+                F_ThumbnailPath = thumbnailFolder + filename
+            });
+        }
+
 
 
     }
