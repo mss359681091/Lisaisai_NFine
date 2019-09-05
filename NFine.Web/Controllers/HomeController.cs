@@ -14,6 +14,7 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace NFine.Web.Controllers
 {
@@ -267,6 +268,146 @@ namespace NFine.Web.Controllers
         }
         #endregion
 
+        public ActionResult SingleFiles()
+        {
+            return View();
+        }
+
+        #region public ActionResult UpLoadProcess() 大文件上传后台处理程序
+
+        public ActionResult UpLoadProcess(string param_uploader)
+        {
+            string root = Server.MapPath("/Upload/files/" + param_uploader + "/");
+
+            //如果进行了分片
+            if (Request.Form.AllKeys.Any(m => m == "chunk"))
+            {
+                //取得chunk和chunks
+                int chunk = Convert.ToInt32(Request.Form["chunk"]);//当前分片在上传分片中的顺序（从0开始）
+                int chunks = Convert.ToInt32(Request.Form["chunks"]);//总分片数
+                //根据GUID创建用该GUID命名的临时文件夹
+                //string folder = Server.MapPath("~/upload/" + Request["guid"] + "/");
+                string folder = root + Request["guid"] + "/";
+                string path = folder + chunk;
+
+                //建立临时传输文件夹
+                if (!Directory.Exists(Path.GetDirectoryName(folder)))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                FileStream addFile = new FileStream(path, FileMode.Append, FileAccess.Write);
+                BinaryWriter AddWriter = new BinaryWriter(addFile);
+                //获得上传的分片数据流
+                var file = Request.Files[0];
+                Stream stream = file.InputStream;
+
+                BinaryReader TempReader = new BinaryReader(stream);
+                //将上传的分片追加到临时文件末尾
+                AddWriter.Write(TempReader.ReadBytes((int)stream.Length));
+                //关闭BinaryReader文件阅读器
+                TempReader.Close();
+                stream.Close();
+                AddWriter.Close();
+                addFile.Close();
+
+                TempReader.Dispose();
+                stream.Dispose();
+                AddWriter.Dispose();
+                addFile.Dispose();
+                return Json(new { chunked = true, hasError = false, f_ext = Path.GetExtension(file.FileName) });
+            }
+            else//没有分片直接保存
+            {
+                //Server.MapPath("~/upload/" + DateTime.Now.ToFileTime() + Path.GetExtension(Request.Files[0].FileName))
+                Request.Files[0].SaveAs(Path.Combine(root, Request.Files[0].FileName));
+                return Json(new { chunked = true, hasError = false });
+            }
+        }
+
+        public ActionResult MergeFiles(string guid, string fileExt, string param_uploader)
+        {
+            string root = Server.MapPath("/Upload/files/" + param_uploader + "/");
+            string sourcePath = root + Request["guid"] + "/";//源数据文件夹
+            string newguid = Guid.NewGuid().ToString("N");
+            string targetPath = Path.Combine(root, newguid + fileExt);//合并后的文件
+
+            DirectoryInfo dicInfo = new DirectoryInfo(sourcePath);
+            if (Directory.Exists(Path.GetDirectoryName(sourcePath)))
+            {
+                FileInfo[] files = dicInfo.GetFiles();
+                foreach (FileInfo file in files.OrderBy(f => int.Parse(f.Name)))
+                {
+                    FileStream addFile = new FileStream(targetPath, FileMode.Append, FileAccess.Write);
+                    BinaryWriter AddWriter = new BinaryWriter(addFile);
+
+                    //获得上传的分片数据流
+                    Stream stream = file.Open(FileMode.Open);
+                    BinaryReader TempReader = new BinaryReader(stream);
+                    //将上传的分片追加到临时文件末尾
+                    AddWriter.Write(TempReader.ReadBytes((int)stream.Length));
+                    //关闭BinaryReader文件阅读器
+                    TempReader.Close();
+                    stream.Close();
+                    AddWriter.Close();
+                    addFile.Close();
+
+                    TempReader.Dispose();
+                    stream.Dispose();
+                    AddWriter.Dispose();
+                    addFile.Dispose();
+                }
+
+                FileInfo fileInfo = new System.IO.FileInfo(targetPath);
+                string strlength = FileHelper.ToFileSize(fileInfo.Length);
+                DeleteFolder(sourcePath);
+                return Json(new
+                {
+                    chunked = true,
+                    hasError = false,
+                    F_FilePath = "/Upload/files/" + param_uploader + "/" + newguid + fileExt,
+                    F_FileSize = strlength,
+
+                });
+            }
+            return Json(new
+            {
+                hasError = true,
+            });
+        }
+
+        private static void DeleteFolder(string strPath)
+        {
+            //删除这个目录下的所有子目录
+            if (Directory.GetDirectories(strPath).Length > 0)
+            {
+                foreach (string fl in Directory.GetDirectories(strPath))
+                {
+                    Directory.Delete(fl, true);
+                }
+            }
+            //删除这个目录下的所有文件
+            if (Directory.GetFiles(strPath).Length > 0)
+            {
+                foreach (string f in Directory.GetFiles(strPath))
+                {
+                    System.IO.File.Delete(f);
+                }
+            }
+            Directory.Delete(strPath, true);
+        }
+
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+
         /// <summary>
         /// 单图上传
         /// </summary>
@@ -301,11 +442,18 @@ namespace NFine.Web.Controllers
             FileHelper.CreateDirectory(Server.MapPath(categoryFolder));
             FileHelper.CreateDirectory(Server.MapPath(thumbnailFolder));
 
+            //string fullpath = Server.MapPath(categoryFolder + filename);//图片物理路径
+            //if (!System.IO.File.Exists(fullpath))
+            //{
+            //    file.SaveAs(fullpath);
+            //}
             string fullpath = Server.MapPath(categoryFolder + filename);//图片物理路径
-            if (!System.IO.File.Exists(fullpath))
-            {
-                file.SaveAs(fullpath);
-            }
+            string filetype = FileHelper.GetExtension(fullpath);
+            string fileMD5 = Common.GuId();
+            filename = fileMD5 + filetype;
+            file.SaveAs(Server.MapPath(categoryFolder + filename));
+
+
             //是否开启缩略图
             if (isthumbnai == "1")
             {

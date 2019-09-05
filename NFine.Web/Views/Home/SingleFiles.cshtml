@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "大文件上传";
+    Layout = "~/Views/Shared/_SingleUploader.cshtml";
+}
+<script type="text/javascript">
+    // 添加全局站点信息
+    var BASE_URL = '/Content/js/webuploader-0.1.5/webuploader';
+
+    $(function () {
+        $("#param_uploader").val($.request("keyValue"));
+        $("#flag").val($.request("flag"));
+    });
+</script>
+<script src="~/Content/js/webuploader-0.1.5/webuploader-SingleFiles.js"></script>
+

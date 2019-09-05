@@ -12,7 +12,7 @@
 <body>
     <input id="errornum" type="hidden" value="@ViewBag.errornum" />
     <div class="lr-layout-block top">
-        <img src="~/Content/img/Login/logo.png" />
+        <img src="~/Content/img/Login/logo2.png" />
     </div>
     <div class="lr-layout-block middle">
         <div class="lr-layout-side left">
@@ -45,11 +45,16 @@
                 <button id="lr_login_btn" type="button"><span>登录</span></button>
                 <div class="lr-login-links">
                     <a href="#" onclick="alert('请联系管理员')">忘记密码？</a>
+                    @*<img src="~/Content/img/anzhuo.png" />
+                        <img src="~/Content/img/ios.png" />*@
+                </div>
+                <div>
+                    <a href="#" onclick="fnopen()"><img src="~/Content/img/anzhuo.png" style="height:30px;width:30px" /></a>
+                    <a href="#" onclick="fnmsg()"><img src="~/Content/img/ios.png" style="height:30px;width:30px" /></a>
                 </div>
                 <div class="lr-version bottom">
                     推荐使用谷歌浏览器&nbsp;&nbsp; <a target="_blank" href="~/Resource/Chrome/ChromeSetup_32.exe" style="color:gray">32位下载</a>&nbsp;&nbsp;<a target="_blank" href="~/Resource/Chrome/ChromeSetup_64.exe" style="color:gray">64位下载</a><br>
                 </div>
-                @*<div class="lr-version">当前版本 V1.0.1</div>*@
             </div>
         </div>
         <div class="lr-layout-side right">
@@ -57,16 +62,44 @@
         </div>
     </div>
 
-
     <div class="lr-layout-block bottom" style="width:100%;text-align:center;">
-        技术支持:恒禹软件<br>
-        <a href="http://www.hengyusoft.com/" title="恒禹软件是一家新进的具有领先科技及高素质专业团队,极富创新性,高速发展的公司,本软件公司本着“共同 共创 共有 共赢 共富 共享”的价值理念稳步发展,公司主要经营范围包括企业类,政务类,网站类,硬件类,维护类,广告类等软件产品. 基于“内容价值最大化,持续为社会创造价值”的企业使命,以及以义当先,义利共存,领先一步,就是科技的企业." target="_blank" style="color:#828282;">Copyright © 2011-2016 HengYuSoft All Rights Reserved</a>
+        <div id="output" style="padding:15px" hidden></div>
+        @*实施方便快捷 | 模块化设计 | 集中管理 | 无缝融合 | 易于使用<br>*@
+        @*强烈推荐使用谷歌浏览器&nbsp;&nbsp; <a target="_blank" href="~/Resource/Chrome/ChromeSetup_32.exe">32位下载</a>&nbsp;&nbsp;<a target="_blank" href="~/Resource/Chrome/ChromeSetup_64.exe">64位下载</a><br>*@
+        技术支持:<a style="color:#828282;text-decoration:none" target="_blank" href="http://www.hengyusoft.com/">恒禹软件</a><br>
+        <a style="color:#828282;">Copyright © 2011-2019 HengYuSoft All Rights Reserved</a>
     </div>
 
     <script src="~/Content/js/jquery/jquery-3.1.1.min.js"></script>
+    <script src="~/Content/js/layer/layer.js"></script>
+    <script src="~/Content/js/qrcode/jquery.qrcode.js"></script>
+    <script src="~/Content/js/qrcode/qrcode.js"></script>
     <script src="~/Content/js/md5/jquery.md5.js"></script>
     <script src="~/Content/js/cookie/jquery.cookie.js"></script>
     <script>
+        jQuery('#output').qrcode({ width: 200, height: 200, correctLevel: 0, text: "http://60.190.0.94:9090/Upload/apk/H5D9BBE69_1210034148.apk" });
+
+        function fnopen() {
+            layer.open({
+                type: 1,
+                title: "安卓端—扫一扫下载",
+                //closeBtn: 0,
+                //area: '516px',
+                //skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#output')
+            });
+        }
+        function fnmsg()
+        {
+            layer.alert('上架中', {
+                title:'IOS v1.0',
+                icon: 7,
+                skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            })
+        }
+
+
         $.rootUrl = '@Url.Content("~")'.substr(0, '@Url.Content("~")'.length - 1);
         $.lrToken = $('@Html.AntiForgeryToken()').val();
     </script>
