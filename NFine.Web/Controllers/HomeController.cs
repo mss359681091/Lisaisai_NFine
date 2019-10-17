@@ -5,16 +5,15 @@
  * Website：http://blog.csdn.net/mss359681091
 *********************************************************************************/
 using NFine.Application.SystemManage;
-using NFine.Application.SystemSecurity;
 using NFine.Code;
 using NFine.Domain.Entity.SystemManage;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Linq;
 
 namespace NFine.Web.Controllers
 {
@@ -34,10 +33,10 @@ namespace NFine.Web.Controllers
         [HttpGet]
         public ActionResult Default()
         {
-            
+
 
             //DBConnection.Encrypt = false;
-            var a = DESEncrypt.Encrypt(DBConnection.connectionString) ;
+            var a = DESEncrypt.Encrypt(DBConnection.connectionString);
 
             return View();
         }
@@ -110,7 +109,7 @@ namespace NFine.Web.Controllers
         public FileContentResult CreateShortcutFile()
         {
             string browser = Request.UserAgent.ToUpper();
-            string outputFileName = "恒禹软件.url";
+            string outputFileName = "优客里里软件.url";
 
             if (browser.Contains("MS") == true && browser.Contains("IE") == true)
             {
@@ -137,7 +136,7 @@ namespace NFine.Web.Controllers
             sb.AppendLine("Prop3=19,2 ");
             //第一种:使用FileContentResult  
             byte[] fileContents = Encoding.Default.GetBytes(sb.ToString());
-            //string fileName = System.Web.HttpUtility.UrlEncode("恒禹软件", System.Text.Encoding.UTF8) + ".url";
+            //string fileName = System.Web.HttpUtility.UrlEncode("优客里里软件", System.Text.Encoding.UTF8) + ".url";
             return File(fileContents, "APPLICATION/OCTET-STREAM", outputFileName);
         }
         #endregion
@@ -268,6 +267,70 @@ namespace NFine.Web.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 单图上传
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SingleUploader()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 单图上传
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="lastModifiedDate"></param>
+        /// <param name="size"></param>
+        /// <param name="file"></param>
+        /// <param name="param_uploader">文件夹</param>
+        /// <returns></returns>
+        public ActionResult SingleUpLoadProcess(string id, string name, string type, string lastModifiedDate, int size, HttpPostedFileBase file, string param_uploader, string isthumbnai = "")
+        {
+            string filePathName = string.Empty;
+            param_uploader = System.Web.HttpUtility.UrlDecode(param_uploader);//改格式
+            if (Request.Files.Count == 0)
+            {
+                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "保存失败" }, id = "id" });
+            }
+            string filename = name;//图片名称
+            string categoryFolder = "/Upload/" + param_uploader + "/";
+            string thumbnailFolder = "/Upload/" + param_uploader + "_s/";
+            FileHelper.CreateDirectory(Server.MapPath(categoryFolder));
+            FileHelper.CreateDirectory(Server.MapPath(thumbnailFolder));
+
+            string fullpath = Server.MapPath(categoryFolder + filename);//图片物理路径
+            if (!System.IO.File.Exists(fullpath))
+            {
+                file.SaveAs(fullpath);
+            }
+            else
+            {
+                filename = Common.CreateNo() + Path.GetExtension(file.FileName);
+                fullpath = Path.Combine(Server.MapPath(categoryFolder), filename);
+                file.SaveAs(fullpath);
+            }
+            
+            //是否开启缩略图
+            if (isthumbnai == "1")
+            {
+                Infrastructure.MessageQueue.MakeThumbnailList(fullpath, Server.MapPath(thumbnailFolder + filename), Infrastructure.RedisTypeEnum.IMGConversion);//进入消息队列处理压缩
+            }
+            var length = FileHelper.ToFileSize(file.ContentLength);//获取图片大小 
+            return Json(new
+            {
+                jsonrpc = "2.0",
+                id = id,
+                F_FilePath = categoryFolder + filename,
+                F_FullName = filename,
+                F_FileSize = length,
+                F_ThumbnailPath = thumbnailFolder + filename
+            });
+        }
+
+
         public ActionResult SingleFiles()
         {
             return View();
@@ -320,8 +383,21 @@ namespace NFine.Web.Controllers
             else//没有分片直接保存
             {
                 //Server.MapPath("~/upload/" + DateTime.Now.ToFileTime() + Path.GetExtension(Request.Files[0].FileName))
+                //Request.Files[0].SaveAs(Path.Combine(root, Request.Files[0].FileName));
+                //return Json(new { chunked = true, hasError = false });
+                FileHelper.CreateDirectory(root);
                 Request.Files[0].SaveAs(Path.Combine(root, Request.Files[0].FileName));
-                return Json(new { chunked = true, hasError = false });
+                FileInfo fileInfo = new System.IO.FileInfo(Path.Combine(root, Request.Files[0].FileName));
+                string strlength = FileHelper.ToFileSize(fileInfo.Length);
+                return Json(new
+                {
+                    chunked = false,
+                    hasError = false,
+                    F_FilePath = "/Upload/files/" + param_uploader + "/" + Request.Files[0].FileName,
+                    F_FileSize = strlength,
+                    F_FileName = Request.Files[0].FileName
+                });
+
             }
         }
 
@@ -407,71 +483,64 @@ namespace NFine.Web.Controllers
 
         #endregion
 
+     
 
+        #region 通用文件下载
         /// <summary>
-        /// 单图上传
+        /// 下载文件
         /// </summary>
+        /// <param name="pathList">文件路径集合（相对路径）</param>
         /// <returns></returns>
-        public ActionResult SingleUploader()
+        public void DownloadFile(string pathList)
         {
-            return View();
-        }
-
-        /// <summary>
-        /// 单图上传
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="type"></param>
-        /// <param name="lastModifiedDate"></param>
-        /// <param name="size"></param>
-        /// <param name="file"></param>
-        /// <param name="param_uploader">文件夹</param>
-        /// <returns></returns>
-        public ActionResult SingleUpLoadProcess(string id, string name, string type, string lastModifiedDate, int size, HttpPostedFileBase file, string param_uploader, string isthumbnai = "")
-        {
-            string filePathName = string.Empty;
-            param_uploader = System.Web.HttpUtility.UrlDecode(param_uploader);//改格式
-            if (Request.Files.Count == 0)
+            if (!string.IsNullOrEmpty(pathList))
             {
-                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "保存失败" }, id = "id" });
+                List<string> lstid = pathList.Split(',').ToList<string>();
+                if (lstid.Count == 1)
+                {
+                    var absolutePath = Server.MapPath(lstid[0]);//转成绝对路径
+                    var fullName = System.IO.Path.GetFileName(absolutePath);
+                    if (System.IO.File.Exists(absolutePath))
+                    {
+                        FileDownHelper.DownLoadold(absolutePath, fullName);
+                        return;
+                    }
+                }
+                else if (lstid.Count == 0)
+                {
+                    return;
+                }
+
+                //将文件拷贝至指定临时路径并压缩打包
+                string newFilename = DateTime.Now.ToString("yyyyMMddHHmmss");
+                string newFolder = "/Temp/" + newFilename + "/";
+                string newZip = Server.MapPath("/Temp/" + newFilename + ".zip");//压缩包
+                FileHelper.CreateDirectory(Server.MapPath(newFolder));//创建一个临时文件夹
+
+                for (int i = 0; i < lstid.Count; i++)
+                {
+                    var filepath = Server.MapPath(lstid[i]);
+                    var fullName = System.IO.Path.GetFileName(filepath);
+
+                    if (FileDownHelper.FileExists(filepath))
+                    {
+                        FileHelper.Copy(filepath, Server.MapPath(newFolder + fullName));//将文件拷贝到临时文件夹
+                    }
+                }
+                //将文件夹进行GZip压缩
+                ZipFloClass Zc = new ZipFloClass();
+                Zc.ZipFile(Server.MapPath(newFolder), newZip);//生成压缩包
+                if (FileDownHelper.FileExists(newZip))
+                {
+                    FileDownHelper.DownLoadold(newZip, newFilename + ".zip");//下载压缩包
+                }
+                //删除文件夹
+                FileHelper.DeleteDirectory(newFolder);//删除文件夹
+                FileHelper.DeleteFile(newZip);//删除临时压缩包
             }
-            string filename = name;//图片名称
-            string categoryFolder = "/Upload/" + param_uploader + "/";
-            string thumbnailFolder = "/Upload/" + param_uploader + "_s/";
-            FileHelper.CreateDirectory(Server.MapPath(categoryFolder));
-            FileHelper.CreateDirectory(Server.MapPath(thumbnailFolder));
-
-            //string fullpath = Server.MapPath(categoryFolder + filename);//图片物理路径
-            //if (!System.IO.File.Exists(fullpath))
-            //{
-            //    file.SaveAs(fullpath);
-            //}
-            string fullpath = Server.MapPath(categoryFolder + filename);//图片物理路径
-            string filetype = FileHelper.GetExtension(fullpath);
-            string fileMD5 = Common.GuId();
-            filename = fileMD5 + filetype;
-            file.SaveAs(Server.MapPath(categoryFolder + filename));
-
-
-            //是否开启缩略图
-            if (isthumbnai == "1")
-            {
-                NFine.Code.Common.MakeThumbnail(fullpath, Server.MapPath(thumbnailFolder + filename), 450, 450, "W", "jpg");//生成缩略图
-            }
-            var length = FileHelper.ToFileSize(file.ContentLength);//获取图片大小 
-            return Json(new
-            {
-                jsonrpc = "2.0",
-                id = id,
-                F_FilePath = categoryFolder + filename,
-                F_FullName = filename,
-                F_FileSize = length,
-                F_ThumbnailPath = thumbnailFolder + filename
-            });
+            return;
         }
-
-
+        #endregion
 
     }
 }

@@ -7,13 +7,13 @@
 var context = context || (function () {
 
     var options = {
-        fadeSpeed: 100,
+        fadeSpeed: 500,
         filter: function ($obj) {
             // Modify $obj, Do not return
         },
         above: 'auto',
         preventDoubleContext: true,
-        compress: false
+        compress: true
     };
 
     function initialize(opts) {
@@ -94,10 +94,7 @@ var context = context || (function () {
         var d = new Date(),
 			id = d.getTime(),
 			$menu = buildMenu(data, id);
-
         $('body').append($menu);
-        $('body').authorizeButton();
-
         $(document).on('contextmenu', selector, function (e) {
             e.preventDefault();
             e.stopPropagation();

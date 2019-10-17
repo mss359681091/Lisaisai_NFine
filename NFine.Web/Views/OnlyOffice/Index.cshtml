@@ -1,0 +1,153 @@
+﻿@model NFine.Web.Models.FileModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>
+        文档在线编辑
+    </title>
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            background: #fff;
+            color: #333;
+            font-family: Arial, Tahoma,sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            height: 100%;
+            margin: 0;
+            overflow-y: hidden;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        form {
+            height: 100%;
+        }
+
+        div {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="~/Content/js/jquery/jquery-2.1.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src='@NFine.Code.Configs.GetValue("files.docservice.url.api")'></script>
+    <script type="text/javascript" language="javascript">
+        var domain = "http://" + window.location.host;//当前域名
+        var newpath = domain + "@Model.NewPath";//文件相对路径
+        var username = "@Model.UserName";//用户名
+        var viewtype = "@Model.ViewType";//查看|编辑
+        if (viewtype == "" || viewtype == null || viewtype == undefined) {
+            viewtype = "edit";
+        }
+        var docEditor;
+        var fileName = "@Model.FileName";
+        var fileType = "@Path.GetExtension(Model.FileName).Trim('.')";//文件类型
+        var innerAlert = function (message) {
+            if (console && console.log)
+                console.log(message);
+        };
+
+        var onReady = function () {
+            innerAlert("Document editor ready");
+        };
+
+        var onDocumentStateChange = function (event) {
+            var title = document.title.replace(/\*$/g, "");
+            document.title = title + (event.data ? "*" : "");
+        };
+
+        var onRequestEditRights = function () {
+            location.href = location.href.replace(RegExp("action=view\&?", "i"), "");
+        };
+
+        var onError = function (event) {
+            if (event)
+                innerAlert(event.data);
+        };
+
+        var onOutdatedVersion = function (event) {
+
+            location.reload(true);
+        };
+        var connectEditor = function () {
+            docEditor = new DocsAPI.DocEditor("iframeEditor",
+                {
+                    width: "100%",
+                    height: "100%",
+                    type: 'desktop',
+                    documentType: "@Model.DocumentType",
+                    document: {
+                        title: fileName,
+                        url: newpath,
+                        fileType: fileType,
+                        key: "@Model.Key",
+                        info: {
+                            author: username,
+                            created: "@DateTime.Now.ToShortDateString()",
+                        },
+                        permissions: {
+                            edit: true,
+                            edit: "@NFine.Web.Helpers.DocManagerHelper.EditedExts.Contains(Path.GetExtension(Model.FileName))" == "True",
+                            download: true,
+                            comment: true,
+                            print: true,
+                            review: true
+                        }
+                    },
+                    editorConfig: {
+                        mode: viewtype,
+                        lang: "zh-CN",
+                        callbackUrl: "@Model.CallbackUrl",
+                        //callbackUrl: domain + "/webeditor.ashx?type=track&fileName=" + fileName + "&userAddress=" + newpath,
+                        user: {
+                            id: username,
+                            name: username,
+                        },
+
+                        embedded: {
+                            saveUrl: newpath,
+                            embedUrl: newpath,
+                            shareUrl: newpath,
+                            toolbarDocked: "top",
+                        },
+
+                        customization: {
+                            about: true,
+                            feedback: true,
+                            goback: {
+                                url: domain + "/Home/Index",
+                            },
+                        },
+                    },
+                    events: {
+                        'onReady': onReady,
+                        'onDocumentStateChange': onDocumentStateChange,
+                        'onRequestEditRights': onRequestEditRights,
+                        'onError': onError,
+                        'onOutdatedVersion': onOutdatedVersion,
+                    }
+                });
+        };
+
+        if (window.addEventListener) {
+            window.addEventListener("load", connectEditor);
+        } else if (window.attachEvent) {
+            window.attachEvent("load", connectEditor);
+        }
+
+    </script>
+</head>
+<body>
+    <form id="form1" method="post" action="/OnlyOffice/Index?fileID=demo.docx">
+        <input id="hidmir" name="name" type="hidden" value="@Model.UserName" />
+        <div id="iframeEditor">
+        </div>
+    </form>
+</body>
+</html>

@@ -1,8 +1,7 @@
 ﻿$(function () {
     document.body.className = localStorage.getItem('config-skin');
     //$("[data-toggle='tooltip']").tooltip();
-    if (top.$.nfinetab != undefined)
-    {
+    if (top.$.nfinetab != undefined) {
         $('.menuItem').on('click', top.$.nfinetab.addTab);
     }
 })
@@ -401,15 +400,95 @@ $.fn.authorizeButton = function () {
     var dataJson = top.clients.authorizeButton[moduleId];
     var $element = $(this);
     $element.find('a[authorize=yes]').attr('authorize', 'no');
+    //$element.find('i[authorize=yes]').attr('authorize', 'no');
+
     if (dataJson != undefined) {
         $.each(dataJson, function (i) {
             $element.find("#" + dataJson[i].F_EnCode).attr('authorize', 'yes');
         });
     }
-    $element.find("[authorize=no]").parents('li').prev('.split').remove();
-    $element.find("[authorize=no]").parents('li').remove();
+    //$element.find("[authorize=no]").parents('li').prev('.split').remove();
+    //$element.find("[authorize=no]").parents('li').remove();
     $element.find('[authorize=no]').remove();
 }
+
+//右键菜单权限
+//参数1：空白区域元素
+//参数2：编辑行父元素
+//参数3：编辑行子元素
+//参数4：执行函数
+$.authorizeButton_right = function (options) {
+    var defaults = {
+        pbody: '',
+        ptabel: '',
+        ptr: '',
+        array: ['curid']
+    };
+    var options = $.extend(defaults, options);
+    //1读取数据
+    var moduleId = top.$(".NFine_iframe:visible").attr("id").substr(6);
+    var dataJson = top.clients.authorizeButton[moduleId];
+    //2组装空白区域
+    var ct_body = [];
+    //3组装编辑行
+    var ct_tr = [];
+    //4组装二级操作
+    var ct_caozuo = [];
+
+    $.each(dataJson, function (i) {
+        var dj = dataJson[i];
+        var temp;
+        if (dj.F_EnCode == 'NF-caozuo') {
+            temp = {
+                text: '<i id="NF-caozuo" class="fa  ' + dj.F_Icon + ' m-r-xs"></i>' + dj.F_FullName,
+                subMenu: ct_caozuo
+            }
+        }
+        else {
+            temp = {
+                text: '<i  id="' + dj.F_EnCode + '" class="fa ' + dj.F_Icon + ' m-r-xs"></i>' + dj.F_FullName,
+                action: function (e) {
+                    e.preventDefault();
+                    var test = eval("(false || " + dj.F_JsEvent + ")");
+                    test();
+                }
+            }
+        }
+
+        if (dj.F_Location == 1) {
+            //初始
+            ct_body.push(temp);
+        }
+        else {
+            //选中
+            if (dj.F_ParentId == 0) {
+                ct_tr.push(temp);
+            }
+            else {
+                ct_caozuo.push(temp);
+            }
+        }
+    });
+    context.init({ preventDoubleContext: false });
+    if (!!options.pbody)
+    {
+        context.attach(options.pbody, ct_body);
+    }
+    if (!!options.ptabel)
+    {
+        $(options.ptabel).on("mousedown", options.ptr, function (e) {
+            if (e.which == 3) {
+                for (i = 0; i < options.array.length; i++) {
+                    console.log($(this).data(options.array[i]));
+                    $(options.ptabel).data(options.array[i], $(this).data(options.array[i]));
+                }
+                context.attach(options.ptabel + ' ' + options.ptr, ct_tr);
+            }
+        });
+    }
+    context.settings({ compress: true });
+}
+
 $.fn.dataGrid = function (options) {
     var defaults = {
         datatype: "json",
@@ -449,6 +528,14 @@ $.IntervalLoad = function () {
     }, 500);
     return false;
 }
+
+$.IntervalSearch = function () {
+    var interval = setInterval(function () {
+        fnSearch();//刷洗父页面
+        clearInterval(interval);
+    }, 200);
+    return false;
+}
 /*自定义js*/
 
 //单图上传(参数依次为目录、是否压缩、返回标识)
@@ -457,6 +544,18 @@ $.SingleUploader = function (dir, thumbnai, flag) {
     var url = '/Home/SingleUploader?keyValue=' + escape(dir) + '&isthumbnai=' + thumbnai + '&flag=' + flag;
     layer.open({
         title: "上传图片",
+        type: 2,
+        area: ['100%', '100%'],
+        fixed: false, //不固定
+        maxmin: true,
+        content: url
+    });
+}
+
+$.SingleFiles = function (dir, flag) {
+    var url = '/Home/SingleFiles?keyValue=' + escape(dir) + '&flag=' + flag;
+    layer.open({
+        title: "上传文件",
         type: 2,
         area: ['100%', '100%'],
         fixed: false, //不固定
